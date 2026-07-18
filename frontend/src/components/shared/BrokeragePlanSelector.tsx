@@ -13,7 +13,7 @@ export const BrokeragePlanSelector = ({
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger
-        className="rounded-none border-[#0a0a0a] h-10 focus:ring-1 focus:ring-black"
+        className="rounded-none border-[#102A43] h-10 focus:ring-1 focus:ring-[#102A43]"
         data-testid="plan-selector-trigger"
       >
         <SelectValue placeholder="Select plan" />

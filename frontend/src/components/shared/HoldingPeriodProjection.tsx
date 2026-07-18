@@ -2,8 +2,8 @@ import type { HoldingPeriodProjectionRow } from "@/types";
 import { inrCurrency } from "@/lib/formatters";
 
 export const HoldingPeriodProjection = ({ rows }: { rows: HoldingPeriodProjectionRow[] }) => (
-  <div className="border border-[#0a0a0a] bg-white overflow-x-auto" data-testid="holding-projection">
-    <div className="px-4 py-3 border-b border-black flex items-center justify-between">
+  <div className="border border-[#102A43] bg-white overflow-x-auto" data-testid="holding-projection">
+    <div className="px-4 py-3 border-b border-[#102A43] flex items-center justify-between">
       <h3 className="font-editorial text-lg font-semibold">Holding Period Projection</h3>
       <span className="kypnl-overline">Interest scales linearly with days</span>
     </div>
@@ -24,7 +24,7 @@ export const HoldingPeriodProjection = ({ rows }: { rows: HoldingPeriodProjectio
             <td className="num font-mono-ibm">{inrCurrency(r.interest)}</td>
             <td className="num font-mono-ibm">{inrCurrency(r.totalCost)}</td>
             <td className="num font-mono-ibm">{inrCurrency(r.breakevenPrice, { decimals: 2 })}</td>
-            <td className={`num font-mono-ibm ${r.netPnl >= 0 ? "text-[#057a55]" : "text-[#d43325]"}`}>
+            <td className={`num font-mono-ibm ${r.netPnl >= 0 ? "text-[#087F6D]" : "text-[#087F6D]"}`}>
               {inrCurrency(r.netPnl)}
             </td>
           </tr>

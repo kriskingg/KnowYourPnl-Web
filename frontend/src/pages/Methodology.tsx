@@ -18,15 +18,15 @@ export const Methodology = () => {
   ];
   return (
     <div className="mx-auto max-w-7xl px-4 md:px-6 py-10" data-testid="page-methodology">
-      <header className="border-b border-black pb-6 mb-10">
+      <header className="border-b border-[#102A43] pb-6 mb-10">
         <div className="kypnl-overline">Methodology</div>
         <h1 className="font-editorial text-4xl md:text-5xl font-semibold mt-2">How every number is made.</h1>
-        <p className="text-[14px] text-[#525252] max-w-3xl mt-3">
+        <p className="text-[14px] text-[#486581] max-w-3xl mt-3">
           Reusable across brokers. Broker-specific values are loaded through the tariff layer; the
           formulas themselves are broker-independent.
         </p>
       </header>
-      <ol className="border border-[#0a0a0a] bg-white divide-y divide-[#e5e5df]">
+      <ol className="border border-[#102A43] bg-white divide-y divide-[#e5e5df]">
         {sections.map((s, i) => (
           <li key={s.title} className="grid md:grid-cols-12 gap-4 p-5" data-testid={`methodology-item-${i}`}>
             <div className="md:col-span-3">

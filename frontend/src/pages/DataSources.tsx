@@ -11,10 +11,10 @@ const rows = [
 
 export const DataSources = () => (
   <div className="mx-auto max-w-7xl px-4 md:px-6 py-10" data-testid="page-data-sources">
-    <header className="border-b border-black pb-6 mb-10">
+    <header className="border-b border-[#102A43] pb-6 mb-10">
       <div className="kypnl-overline">Data Sources</div>
       <h1 className="font-editorial text-4xl md:text-5xl font-semibold mt-2">Where every number comes from.</h1>
-      <p className="text-[14px] text-[#525252] max-w-3xl mt-3">
+      <p className="text-[14px] text-[#486581] max-w-3xl mt-3">
         We refuse to display an unlabelled tariff. Every value we store is stamped with a
         verification status and a citation.
       </p>
@@ -22,7 +22,7 @@ export const DataSources = () => (
 
     <section className="mb-10">
       <div className="kypnl-overline mb-3">Verification statuses</div>
-      <div className="border border-[#0a0a0a] bg-white divide-y divide-[#e5e5df]">
+      <div className="border border-[#102A43] bg-white divide-y divide-[#e5e5df]">
         {rows.map((r) => (
           <div key={r.status} className="p-4 flex flex-col md:flex-row items-start md:items-center gap-3">
             <div className="md:w-56 shrink-0"><VerificationBadge status={r.status} size="md" /></div>
@@ -34,7 +34,7 @@ export const DataSources = () => (
 
     <section className="mb-10">
       <div className="kypnl-overline mb-3">Fields captured per tariff value</div>
-      <ul className="border border-[#0a0a0a] bg-white grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#e5e5df]">
+      <ul className="border border-[#102A43] bg-white grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#e5e5df]">
         {[
           "Broker & brokerage plan",
           "Charge name",

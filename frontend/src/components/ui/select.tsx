@@ -5,13 +5,13 @@ import { cn } from "@/lib/cn";
 export const Select = SelectPrimitive.Root;
 export const SelectValue = SelectPrimitive.Value;
 export const SelectTrigger = ({ className, children, ...props }: SelectPrimitive.SelectTriggerProps) => (
-  <SelectPrimitive.Trigger className={cn("flex h-10 w-full items-center justify-between border border-black bg-white px-3 text-sm", className)} {...props}>
+  <SelectPrimitive.Trigger className={cn("flex h-10 w-full items-center justify-between border border-[#102A43] bg-white px-3 text-sm", className)} {...props}>
     {children}<SelectPrimitive.Icon><ChevronDown size={15} /></SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 );
 export const SelectContent = ({ className, children, ...props }: SelectPrimitive.SelectContentProps) => (
   <SelectPrimitive.Portal>
-    <SelectPrimitive.Content className={cn("z-50 min-w-[var(--radix-select-trigger-width)] border border-black bg-white shadow-xl", className)} {...props}>
+    <SelectPrimitive.Content className={cn("z-50 min-w-[var(--radix-select-trigger-width)] border border-[#102A43] bg-white shadow-xl", className)} {...props}>
       <SelectPrimitive.Viewport>{children}</SelectPrimitive.Viewport>
     </SelectPrimitive.Content>
   </SelectPrimitive.Portal>

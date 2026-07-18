@@ -1,6 +1,6 @@
 export const About = () => (
   <div className="mx-auto max-w-7xl px-4 md:px-6 py-10" data-testid="page-about">
-    <header className="border-b border-black pb-6 mb-10">
+    <header className="border-b border-[#102A43] pb-6 mb-10">
       <div className="kypnl-overline">About</div>
       <h1 className="font-editorial text-4xl md:text-5xl font-semibold mt-2">An independent second opinion on MTF cost.</h1>
     </header>
@@ -21,7 +21,7 @@ export const About = () => (
           evidence that are currently supported, without speculative product placeholders.
         </p>
       </div>
-      <aside className="md:col-span-4 border border-[#0a0a0a] bg-white p-5 text-[13px]">
+      <aside className="md:col-span-4 border border-[#102A43] bg-white p-5 text-[13px]">
         <div className="kypnl-overline mb-2">At a glance</div>
         <ul className="space-y-2">
           <li>· Focus: Margin Trading Facility</li>

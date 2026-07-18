@@ -5,8 +5,8 @@ import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 export const CalculationSummary = ({ result }: { result: CalculationResult }) => {
   const positive = result.netPnl >= 0;
   return (
-    <div className="border border-[#0a0a0a] bg-white" data-testid="calculation-summary">
-      <div className="px-4 py-3 border-b border-black flex items-center justify-between">
+    <div className="border border-[#102A43] bg-white" data-testid="calculation-summary">
+      <div className="px-4 py-3 border-b border-[#102A43] flex items-center justify-between">
         <h3 className="font-editorial text-xl font-semibold">Calculation Summary</h3>
         <span className="kypnl-overline">{result.tariffVersion} · {result.methodologyVersion}</span>
       </div>
@@ -22,13 +22,13 @@ export const CalculationSummary = ({ result }: { result: CalculationResult }) =>
         <Metric label="Break-even" value={inrCurrency(result.breakevenPrice, { decimals: 2 })} testid="metric-breakeven" />
         <Metric label="Gross P&L" value={inrCurrency(result.grossPnl)} testid="metric-gross-pnl" />
       </div>
-      <div className="border-t border-[#0a0a0a] px-4 py-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-[#f5f5ef]">
+      <div className="border-t border-[#102A43] px-4 py-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-[#f5f5ef]">
         <div className="flex items-center gap-3">
-          <span className={`inline-flex items-center gap-1 text-[13px] uppercase tracking-wider font-medium ${positive ? "text-[#057a55]" : "text-[#d43325]"}`}>
+          <span className={`inline-flex items-center gap-1 text-[13px] uppercase tracking-wider font-medium ${positive ? "text-[#087F6D]" : "text-[#087F6D]"}`}>
             {positive ? <ArrowUpRight size={14} strokeWidth={2} /> : <ArrowDownRight size={14} strokeWidth={2} />}
             Estimated Net P&L
           </span>
-          <span className={`font-mono-ibm text-2xl ${positive ? "text-[#057a55]" : "text-[#d43325]"}`} data-testid="metric-net-pnl">
+          <span className={`font-mono-ibm text-2xl ${positive ? "text-[#087F6D]" : "text-[#087F6D]"}`} data-testid="metric-net-pnl">
             {inrCurrency(result.netPnl)}
           </span>
         </div>

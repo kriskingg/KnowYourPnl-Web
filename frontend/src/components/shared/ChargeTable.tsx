@@ -35,7 +35,7 @@ export const ChargeTable = ({ broker }: { broker: Broker }) => {
   ];
 
   return (
-    <div className="border border-[#0a0a0a] bg-white overflow-x-auto" data-testid="charge-table">
+    <div className="border border-[#102A43] bg-white overflow-x-auto" data-testid="charge-table">
       <table className="kypnl-table">
         <thead>
           <tr>
@@ -50,7 +50,7 @@ export const ChargeTable = ({ broker }: { broker: Broker }) => {
             <tr key={r.key} data-testid={`charge-row-${r.key}`}>
               <td className="text-[13px] font-medium">{r.label}</td>
               <td className="font-mono-ibm text-[13px]">{r.value}</td>
-              <td className="text-[12px] text-[#525252]">{r.unit ?? "—"}</td>
+              <td className="text-[12px] text-[#486581]">{r.unit ?? "—"}</td>
               <td>
                 <VerificationBadge status={broker.verificationStatus} />
               </td>

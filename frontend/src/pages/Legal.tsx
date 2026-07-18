@@ -4,7 +4,7 @@ const Page = ({ title, description, children }: { title: string; description: st
   <main className="mx-auto max-w-3xl px-4 md:px-6 py-10">
     <Seo title={title} description={description} />
     <div className="kypnl-overline">KnowYourPNL policy</div>
-    <h1 className="font-editorial text-4xl md:text-5xl mt-2 border-b border-black pb-6">{title}</h1>
+    <h1 className="font-editorial text-4xl md:text-5xl mt-2 border-b border-[#102A43] pb-6">{title}</h1>
     <div className="prose-policy py-6 space-y-5 leading-7 text-[#333]">{children}</div>
   </main>
 );

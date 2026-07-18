@@ -6,8 +6,8 @@ export const BrokerComparisonTable = ({ rows }: { rows: BrokerComparisonResult[]
   if (rows.length === 0) return null;
   const best = [...rows].sort((a, b) => a.totalCost - b.totalCost)[0];
   return (
-    <div className="border border-[#0a0a0a] bg-white overflow-x-auto" data-testid="comparison-table">
-      <div className="px-4 py-3 border-b border-black flex items-center justify-between">
+    <div className="border border-[#102A43] bg-white overflow-x-auto" data-testid="comparison-table">
+      <div className="px-4 py-3 border-b border-[#102A43] flex items-center justify-between">
         <h3 className="font-editorial text-lg font-semibold">Comparison</h3>
         <span className="kypnl-overline">Lower cost = better</span>
       </div>
@@ -40,7 +40,7 @@ export const BrokerComparisonTable = ({ rows }: { rows: BrokerComparisonResult[]
               <td className="num font-mono-ibm">{inrCurrency(r.taxesAndOps)}</td>
               <td className="num font-mono-ibm font-semibold">{inrCurrency(r.totalCost)}</td>
               <td className="num font-mono-ibm">{inrCurrency(r.breakevenPrice, { decimals: 2 })}</td>
-              <td className={`num font-mono-ibm ${r.netPnl >= 0 ? "text-[#057a55]" : "text-[#d43325]"}`}>{inrCurrency(r.netPnl)}</td>
+              <td className={`num font-mono-ibm ${r.netPnl >= 0 ? "text-[#087F6D]" : "text-[#087F6D]"}`}>{inrCurrency(r.netPnl)}</td>
             </tr>
           ))}
         </tbody>

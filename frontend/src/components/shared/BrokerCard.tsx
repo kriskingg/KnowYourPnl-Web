@@ -7,7 +7,7 @@ import { displayDate } from "@/lib/formatters";
 export const BrokerCard = ({ broker }: { broker: Broker }) => {
   return (
     <div
-      className="border border-[#0a0a0a] bg-white p-5 flex flex-col justify-between h-full hover:bg-[#fdfdfb] transition-colors duration-100"
+      className="border border-[#102A43] bg-white p-5 flex flex-col justify-between h-full hover:bg-[#fdfdfb] transition-colors duration-100"
       data-testid={`broker-card-${broker.slug}`}
     >
       <div>
@@ -15,7 +15,7 @@ export const BrokerCard = ({ broker }: { broker: Broker }) => {
           <div>
             <div className="kypnl-overline">Broker</div>
             <h3 className="font-editorial text-2xl font-semibold leading-tight mt-1">{broker.name}</h3>
-            <p className="text-[12px] text-[#525252] mt-1">{broker.legalName}</p>
+            <p className="text-[12px] text-[#486581] mt-1">{broker.legalName}</p>
           </div>
           <VerificationBadge status={broker.verificationStatus} />
         </div>
@@ -35,14 +35,14 @@ export const BrokerCard = ({ broker }: { broker: Broker }) => {
       <div className="mt-5 pt-4 border-t border-[#e5e5df] flex items-center justify-between">
         <Link
           to={`/brokers/${broker.slug}`}
-          className="text-[13px] font-medium underline underline-offset-4 hover:text-[#d43325]"
+          className="text-[13px] font-medium underline underline-offset-4 hover:text-[#087F6D]"
           data-testid={`broker-card-profile-link-${broker.slug}`}
         >
           Broker profile
         </Link>
         <Link
           to={`/brokers/${broker.slug}/mtf`}
-          className="inline-flex items-center gap-1 text-[13px] font-medium bg-black text-[#f9f9f7] px-3 py-1.5 hover:bg-[#d43325] transition-colors duration-100"
+          className="inline-flex items-center gap-1 text-[13px] font-medium bg-[#102A43] text-[#F7F5EF] px-3 py-1.5 hover:bg-[#087F6D] transition-colors duration-100"
           data-testid={`broker-card-mtf-link-${broker.slug}`}
         >
           MTF page <ArrowUpRight size={13} strokeWidth={2} />

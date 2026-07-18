@@ -13,7 +13,7 @@ export const LedgerTable = ({
   onDelete: (id: string) => void;
 }) => {
   return (
-    <div className="border border-[#0a0a0a] bg-white overflow-x-auto" data-testid="ledger-table">
+    <div className="border border-[#102A43] bg-white overflow-x-auto" data-testid="ledger-table">
       <table className="kypnl-table">
         <thead>
           <tr>
@@ -42,7 +42,7 @@ export const LedgerTable = ({
                   </span>
                 )}
               </td>
-              <td className="text-[12px] text-[#525252]">{l.brokerSlug}</td>
+              <td className="text-[12px] text-[#486581]">{l.brokerSlug}</td>
               <td className="text-[12px]">{displayDate(l.purchaseDate)}</td>
               <td className="num font-mono-ibm">{l.quantity}</td>
               <td className="num font-mono-ibm">{inrCurrency(l.buyPrice)}</td>
@@ -50,14 +50,14 @@ export const LedgerTable = ({
               <td className="num font-mono-ibm">{inrCurrency(l.userCapital)}</td>
               <td className="num font-mono-ibm">{inrCurrency(l.mtfInterest)}</td>
               <td className="num font-mono-ibm">{inrCurrency(l.breakevenPrice)}</td>
-              <td className={`num font-mono-ibm ${l.estimatedNetPnl >= 0 ? "text-[#057a55]" : "text-[#d43325]"}`}>
+              <td className={`num font-mono-ibm ${l.estimatedNetPnl >= 0 ? "text-[#087F6D]" : "text-[#087F6D]"}`}>
                 {inrCurrency(l.estimatedNetPnl)}
               </td>
               <td><VerificationBadge status={l.verificationStatus} /></td>
               <td>
                 <div className="flex items-center gap-1">
                   <button
-                    className="p-1 border border-[#e5e5df] hover:border-black"
+                    className="p-1 border border-[#e5e5df] hover:border-[#102A43]"
                     onClick={() => onEdit(l.id)}
                     aria-label="Edit"
                     data-testid={`ledger-edit-${l.id}`}
@@ -65,7 +65,7 @@ export const LedgerTable = ({
                     <Pencil size={12} strokeWidth={1.75} />
                   </button>
                   <button
-                    className="p-1 border border-[#e5e5df] hover:border-[#d43325] hover:text-[#d43325]"
+                    className="p-1 border border-[#e5e5df] hover:border-[#087F6D] hover:text-[#087F6D]"
                     onClick={() => onDelete(l.id)}
                     aria-label="Delete"
                     data-testid={`ledger-delete-${l.id}`}

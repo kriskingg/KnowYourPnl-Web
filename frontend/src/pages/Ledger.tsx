@@ -13,7 +13,7 @@ import { calculateMtf } from "@/services/calculationService";
 import { toast } from "sonner";
 import { Plus, Download, Upload, Trash, RotateCcw } from "lucide-react";
 
-const inputCls = "rounded-none border-[#0a0a0a] h-9 font-mono-ibm text-[13px] focus-visible:ring-1 focus-visible:ring-black";
+const inputCls = "rounded-none border-[#102A43] h-9 font-mono-ibm text-[13px] focus-visible:ring-1 focus-visible:ring-[#102A43]";
 
 const emptyLot = (broker: Broker): MtfLot => {
   const today = new Date().toISOString().slice(0, 10);
@@ -156,36 +156,36 @@ export const Ledger = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 md:px-6 py-10" data-testid="page-ledger">
-      <header className="border-b border-black pb-6 mb-8 flex items-start justify-between gap-6 flex-wrap">
+      <header className="border-b border-[#102A43] pb-6 mb-8 flex items-start justify-between gap-6 flex-wrap">
         <div>
           <div className="kypnl-overline">MTF Ledger</div>
           <h1 className="font-editorial text-4xl md:text-5xl font-semibold mt-2">Positions in view.</h1>
-          <p className="text-[14px] text-[#525252] max-w-2xl mt-3">
+          <p className="text-[14px] text-[#486581] max-w-2xl mt-3">
             A local ledger that sits in your browser. Demonstration lots are labelled Mock and prices
             are user-entered. Nothing is uploaded.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button className="rounded-none bg-black text-[#f9f9f7] hover:bg-[#d43325]" onClick={onAddNew} data-testid="ledger-add-button">
+          <Button className="rounded-none bg-[#102A43] text-[#F7F5EF] hover:bg-[#087F6D]" onClick={onAddNew} data-testid="ledger-add-button">
             <Plus size={13} className="mr-1" /> Add position
           </Button>
-          <Button variant="outline" className="rounded-none border-black" onClick={onExport} data-testid="ledger-export-button">
+          <Button variant="outline" className="rounded-none border-[#102A43]" onClick={onExport} data-testid="ledger-export-button">
             <Download size={13} className="mr-1" /> Export
           </Button>
-          <label className="inline-flex items-center gap-1 border border-black px-3 h-9 text-[13px] cursor-pointer hover:bg-white" data-testid="ledger-import-label">
+          <label className="inline-flex items-center gap-1 border border-[#102A43] px-3 h-9 text-[13px] cursor-pointer hover:bg-white" data-testid="ledger-import-label">
             <Upload size={13} /> Import
             <input ref={fileRef} type="file" accept="application/json" className="hidden" onChange={onImport} data-testid="ledger-import-input" />
           </label>
-          <Button variant="outline" className="rounded-none border-black" onClick={onResetDemo} data-testid="ledger-reset-button">
+          <Button variant="outline" className="rounded-none border-[#102A43]" onClick={onResetDemo} data-testid="ledger-reset-button">
             <RotateCcw size={13} className="mr-1" /> Reset to demo
           </Button>
-          <Button variant="outline" className="rounded-none border-black hover:border-[#d43325] hover:text-[#d43325]" onClick={onClear} data-testid="ledger-clear-button">
+          <Button variant="outline" className="rounded-none border-[#102A43] hover:border-[#087F6D] hover:text-[#087F6D]" onClick={onClear} data-testid="ledger-clear-button">
             <Trash size={13} className="mr-1" /> Clear all
           </Button>
         </div>
       </header>
 
-      <section className="grid grid-cols-2 md:grid-cols-4 border border-[#0a0a0a] bg-white mb-8" data-testid="ledger-summary">
+      <section className="grid grid-cols-2 md:grid-cols-4 border border-[#102A43] bg-white mb-8" data-testid="ledger-summary">
         <SummaryCell label="Positions" value={String(summary.positions)} />
         <SummaryCell label="User capital" value={inrCurrency(summary.totalUserCapital)} border />
         <SummaryCell label="Broker funded" value={inrCurrency(summary.totalBrokerFunded)} border />
@@ -197,7 +197,7 @@ export const Ledger = () => {
       </section>
 
       {lots.length === 0 ? (
-        <div className="border border-dashed border-[#0a0a0a] p-8 text-center text-[13px] text-[#525252]" data-testid="ledger-empty">
+        <div className="border border-dashed border-[#102A43] p-8 text-center text-[13px] text-[#486581]" data-testid="ledger-empty">
           Your ledger is empty. Add a position or restore the demo ledger to see it in action.
         </div>
       ) : (
@@ -210,7 +210,7 @@ export const Ledger = () => {
               <LedgerMobileCard key={l.id} lot={l} onEdit={onEdit} onDelete={onDelete} />
             ))}
           </div>
-          <p className="mt-3 text-[11px] text-[#525252] italic">
+          <p className="mt-3 text-[11px] text-[#486581] italic">
             Current prices are user-entered or from demo seeds — never a live quote.
             Last synced: {displayDate(new Date().toISOString())}.
           </p>
@@ -218,7 +218,7 @@ export const Ledger = () => {
       )}
 
       <Dialog open={!!editing} onOpenChange={(o) => !o && setEditing(null)}>
-        <DialogContent className="rounded-none border-black" data-testid="ledger-editor-dialog">
+        <DialogContent className="rounded-none border-[#102A43]" data-testid="ledger-editor-dialog">
           <DialogHeader>
             <DialogTitle className="font-editorial text-2xl">
               {editing && lots.find((l) => l.id === editing.id) ? "Edit position" : "Add position"}
@@ -254,8 +254,8 @@ export const Ledger = () => {
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" className="rounded-none border-black" onClick={() => setEditing(null)} data-testid="editor-cancel">Cancel</Button>
-            <Button className="rounded-none bg-black text-[#f9f9f7] hover:bg-[#d43325]" onClick={onSave} data-testid="editor-save">Save</Button>
+            <Button variant="outline" className="rounded-none border-[#102A43]" onClick={() => setEditing(null)} data-testid="editor-cancel">Cancel</Button>
+            <Button className="rounded-none bg-[#102A43] text-[#F7F5EF] hover:bg-[#087F6D]" onClick={onSave} data-testid="editor-save">Save</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -288,7 +288,7 @@ const SummaryCell = ({
   >
     <div className="kypnl-overline">{label}</div>
     <div
-      className={`font-mono-ibm text-[15px] mt-1 ${tone === "pos" ? "text-[#057a55]" : tone === "neg" ? "text-[#d43325]" : ""}`}
+      className={`font-mono-ibm text-[15px] mt-1 ${tone === "pos" ? "text-[#087F6D]" : tone === "neg" ? "text-[#087F6D]" : ""}`}
     >
       {value}
     </div>

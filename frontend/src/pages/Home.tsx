@@ -6,14 +6,14 @@ export const Home = () => {
   return (
     <div data-testid="page-home">
       {/* HERO */}
-      <section className="border-b border-black">
+      <section className="border-b border-[#102A43]">
         <div className="mx-auto max-w-7xl px-4 md:px-6 pt-16 md:pt-24 pb-16 grid md:grid-cols-12 gap-8 items-end">
           <div className="md:col-span-8">
             <div className="kypnl-overline mb-6">Independent MTF Cost Intelligence</div>
             <h1 className="font-editorial text-4xl md:text-6xl leading-[1.02] tracking-tight font-semibold">
-              Know the true<br /> cost of <span className="italic text-[#d43325]">MTF</span>.
+              Know the true<br /> cost of <span className="italic text-[#087F6D]">MTF</span>.
             </h1>
-            <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-[#0a0a0a]">
+            <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-[#102A43]">
               Calculate MTF interest, brokerage, taxes, pledge charges, unpledge charges, DP charges,
               break-even price and estimated net profit using transparent, broker-specific
               assumptions — with every value traceable to a verifiable source.
@@ -21,28 +21,28 @@ export const Home = () => {
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
                 to="/calculator"
-                className="inline-flex items-center gap-2 bg-black text-[#f9f9f7] px-5 py-3 text-[14px] font-medium hover:bg-[#d43325] transition-colors duration-100"
+                className="inline-flex items-center gap-2 bg-[#102A43] text-[#F7F5EF] px-5 py-3 text-[14px] font-medium hover:bg-[#087F6D] transition-colors duration-100"
                 data-testid="home-cta-calculate"
               >
                 Calculate MTF cost <ArrowRight size={14} strokeWidth={2} />
               </Link>
               <Link
                 to="/brokers"
-                className="inline-flex items-center gap-2 border border-black px-5 py-3 text-[14px] font-medium hover:bg-white transition-colors duration-100"
+                className="inline-flex items-center gap-2 border border-[#102A43] px-5 py-3 text-[14px] font-medium hover:bg-white transition-colors duration-100"
                 data-testid="home-cta-brokers"
               >
                 Explore broker charges
               </Link>
             </div>
           </div>
-          <div className="md:col-span-4 border border-black bg-white p-5">
+          <div className="md:col-span-4 border border-[#102A43] bg-white p-5">
             <div className="kypnl-overline">Editor's Note</div>
             <p className="mt-2 text-[13px] leading-relaxed">
               KnowYourPNL exists because MTF cost disclosure across brokers is inconsistent.
               Interest is quoted per year; charges are quoted per event; ledgers are quoted after
               the fact. We reconcile all three, then show our work.
             </p>
-            <div className="mt-4 pt-4 border-t border-[#e5e5df] flex items-center gap-2 text-[12px] text-[#525252]">
+            <div className="mt-4 pt-4 border-t border-[#e5e5df] flex items-center gap-2 text-[12px] text-[#486581]">
               <ShieldAlert size={13} strokeWidth={1.75} />
               All values shown are demonstration data pending verification.
             </div>
@@ -53,7 +53,7 @@ export const Home = () => {
       <div className="mx-auto max-w-7xl px-4 md:px-6"><AdSlot id="home-leaderboard" /></div>
       {/* CAPABILITIES */}
       <section className="mx-auto max-w-7xl px-4 md:px-6 py-16">
-        <div className="grid md:grid-cols-3 gap-0 border border-black bg-white">
+        <div className="grid md:grid-cols-3 gap-0 border border-[#102A43] bg-white">
           <Capability
             icon={<CalcIcon size={16} strokeWidth={1.75} />}
             title="MTF Cost Calculator"
@@ -81,13 +81,13 @@ export const Home = () => {
       </section>
 
       {/* WHAT WE COVER */}
-      <section className="border-t border-black">
+      <section className="border-t border-[#102A43]">
         <div className="mx-auto max-w-7xl px-4 md:px-6 py-16 grid md:grid-cols-12 gap-8">
           <div className="md:col-span-4">
             <div className="kypnl-overline">Currently Covered</div>
             <h2 className="font-editorial text-3xl mt-2">MTF, in full.</h2>
           </div>
-          <ul className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 divide-[#e5e5df] border border-[#0a0a0a] bg-white">
+          <ul className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 divide-[#e5e5df] border border-[#102A43] bg-white">
             {[
               "MTF cost calculation",
               "MTF broker charges",
@@ -125,11 +125,11 @@ const Capability = ({
 }) => (
   <Link
     to={to}
-    className={`p-6 hover:bg-[#f5f5ef] transition-colors duration-100 ${border ? "border-t md:border-t-0 md:border-l border-[#0a0a0a]" : ""}`}
+    className={`p-6 hover:bg-[#f5f5ef] transition-colors duration-100 ${border ? "border-t md:border-t-0 md:border-l border-[#102A43]" : ""}`}
     data-testid={testid}
   >
     <div className="flex items-center gap-2 kypnl-overline">{icon} {title}</div>
-    <p className="mt-3 text-[14px] leading-relaxed text-[#0a0a0a]">{body}</p>
+    <p className="mt-3 text-[14px] leading-relaxed text-[#102A43]">{body}</p>
     <div className="mt-4 inline-flex items-center gap-1 text-[13px] font-medium">
       Open <ArrowRight size={13} strokeWidth={2} />
     </div>

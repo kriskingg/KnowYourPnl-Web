@@ -33,7 +33,7 @@ export const Calculator = () => {
         <h1 className="font-editorial text-4xl md:text-5xl font-semibold mt-2">
           The true cost of a single MTF trade.
         </h1>
-        <p className="text-[14px] text-[#525252] max-w-2xl mt-3">
+        <p className="text-[14px] text-[#486581] max-w-2xl mt-3">
           Every value is editable. Assumptions default to the broker's demonstrated tariff.
           Nothing is submitted anywhere — calculations run locally.
         </p>

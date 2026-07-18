@@ -12,11 +12,11 @@ export const LedgerMobileCard = ({
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
 }) => (
-  <div className="border border-[#0a0a0a] bg-white p-4" data-testid={`ledger-card-${lot.id}`}>
+  <div className="border border-[#102A43] bg-white p-4" data-testid={`ledger-card-${lot.id}`}>
     <div className="flex items-start justify-between mb-2">
       <div>
         <div className="font-editorial text-lg font-semibold">{lot.instrument}</div>
-        <div className="text-[12px] text-[#525252]">{lot.brokerSlug} · {displayDate(lot.purchaseDate)}</div>
+        <div className="text-[12px] text-[#486581]">{lot.brokerSlug} · {displayDate(lot.purchaseDate)}</div>
       </div>
       <VerificationBadge status={lot.verificationStatus} />
     </div>
@@ -27,7 +27,7 @@ export const LedgerMobileCard = ({
       <dt className="kypnl-overline">Interest</dt><dd className="text-right font-mono-ibm">{inrCurrency(lot.mtfInterest)}</dd>
       <dt className="kypnl-overline">Break-even</dt><dd className="text-right font-mono-ibm">{inrCurrency(lot.breakevenPrice)}</dd>
       <dt className="kypnl-overline">Net P&L</dt>
-      <dd className={`text-right font-mono-ibm ${lot.estimatedNetPnl >= 0 ? "text-[#057a55]" : "text-[#d43325]"}`}>
+      <dd className={`text-right font-mono-ibm ${lot.estimatedNetPnl >= 0 ? "text-[#087F6D]" : "text-[#087F6D]"}`}>
         {inrCurrency(lot.estimatedNetPnl)}
       </dd>
     </dl>
@@ -40,7 +40,7 @@ export const LedgerMobileCard = ({
         <Pencil size={12} /> Edit
       </button>
       <button
-        className="flex-1 inline-flex items-center justify-center gap-1 text-[12px] py-1.5 border border-[#e5e5df] hover:border-[#d43325] hover:text-[#d43325]"
+        className="flex-1 inline-flex items-center justify-center gap-1 text-[12px] py-1.5 border border-[#e5e5df] hover:border-[#087F6D] hover:text-[#087F6D]"
         onClick={() => onDelete(lot.id)}
         data-testid={`ledger-card-delete-${lot.id}`}
       >

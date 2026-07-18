@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { calculateMtf } from "@/services/calculationService";
 
 const inputCls =
-  "rounded-none border-[#0a0a0a] h-10 focus-visible:ring-1 focus-visible:ring-black font-mono-ibm text-[13px]";
+  "rounded-none border-[#102A43] h-10 focus-visible:ring-1 focus-visible:ring-[#102A43] font-mono-ibm text-[13px]";
 
 type Props = {
   brokers: Broker[];
@@ -95,8 +95,8 @@ export const MtfCalculatorForm = ({ brokers, initialBrokerSlug, onResult }: Prop
   ]);
 
   return (
-    <form className="border border-[#0a0a0a] bg-white" onSubmit={(e) => { e.preventDefault(); compute(); }} data-testid="mtf-calculator-form">
-      <div className="px-4 py-3 border-b border-black flex items-center justify-between">
+    <form className="border border-[#102A43] bg-white" onSubmit={(e) => { e.preventDefault(); compute(); }} data-testid="mtf-calculator-form">
+      <div className="px-4 py-3 border-b border-[#102A43] flex items-center justify-between">
         <h3 className="font-editorial text-lg font-semibold">MTF Inputs</h3>
         <span className="kypnl-overline">All values editable</span>
       </div>
@@ -179,7 +179,7 @@ export const MtfCalculatorForm = ({ brokers, initialBrokerSlug, onResult }: Prop
         <div className="flex items-end">
           <Button
             type="submit"
-            className="w-full rounded-none bg-black text-[#f9f9f7] hover:bg-[#d43325] h-10 font-medium"
+            className="w-full rounded-none bg-[#102A43] text-[#F7F5EF] hover:bg-[#087F6D] h-10 font-medium"
             data-testid="calculate-mtf-button"
           >
             Recalculate

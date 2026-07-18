@@ -7,15 +7,15 @@ import { AdSlot } from "@/components/shared/AdSlot";
 export const Blog = () => (
   <main className="mx-auto max-w-6xl px-4 md:px-6 py-10">
     <Seo title="MTF Guides & Analysis" description="Practical, evidence-aware articles about MTF interest, break-even, charges and ledger interpretation." />
-    <header className="border-b border-black pb-7">
+    <header className="border-b border-[#102A43] pb-7">
       <div className="kypnl-overline">MTF Journal</div>
       <h1 className="font-editorial text-4xl md:text-6xl mt-2">Understand leverage before using it.</h1>
       <p className="mt-4 max-w-2xl text-[#555]">Original explainers built around transparent formulas, tariff evidence and practical MTF decisions.</p>
     </header>
     <AdSlot id="blog-top" />
-    <div className="grid md:grid-cols-3 border-t border-l border-black">
+    <div className="grid md:grid-cols-3 border-t border-l border-[#102A43]">
       {blogPosts.map((post) => (
-        <article key={post.slug} className="border-r border-b border-black bg-white p-6">
+        <article key={post.slug} className="border-r border-b border-[#102A43] bg-white p-6">
           <div className="kypnl-overline">{post.readMinutes} min read · {post.publishedAt}</div>
           <h2 className="font-editorial text-2xl mt-3">{post.title}</h2>
           <p className="mt-3 text-sm text-[#555] leading-6">{post.description}</p>
@@ -37,7 +37,7 @@ export const BlogArticle = () => {
       <script type="application/ld+json">{JSON.stringify(schema)}</script>
       <Link to="/blog" className="text-sm underline underline-offset-4">← All articles</Link>
       <article>
-        <header className="mt-7 border-b border-black pb-7">
+        <header className="mt-7 border-b border-[#102A43] pb-7">
           <div className="kypnl-overline">{post.readMinutes} min read · Published {post.publishedAt}</div>
           <h1 className="font-editorial text-4xl md:text-6xl mt-3">{post.title}</h1>
           <p className="mt-4 text-lg text-[#555]">{post.description}</p>

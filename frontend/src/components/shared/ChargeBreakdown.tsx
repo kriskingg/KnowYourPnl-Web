@@ -9,7 +9,7 @@ export const ChargeBreakdown = ({ breakdown }: { breakdown: CostBreakdown }) => 
     { title: "Operational", lines: breakdown.operational },
   ];
   return (
-    <div className="border border-[#0a0a0a] bg-white" data-testid="charge-breakdown">
+    <div className="border border-[#102A43] bg-white" data-testid="charge-breakdown">
       {sections.map((s) => (
         <div key={s.title} className="border-b border-[#e5e5df]">
           <div className="px-4 py-2 kypnl-overline bg-[#f5f5ef]">{s.title}</div>
@@ -19,7 +19,7 @@ export const ChargeBreakdown = ({ breakdown }: { breakdown: CostBreakdown }) => 
                 <tr key={l.key} data-testid={`charge-line-${l.key}`}>
                   <td className="w-[55%]">
                     <div className="text-[13px]">{l.label}</div>
-                    {l.formula && <div className="text-[11px] text-[#525252] font-mono-ibm mt-0.5">{l.formula}</div>}
+                    {l.formula && <div className="text-[11px] text-[#486581] font-mono-ibm mt-0.5">{l.formula}</div>}
                   </td>
                   <td className="num text-[13px]">{inrCurrency(l.amount)}</td>
                 </tr>
@@ -38,8 +38,8 @@ export const ChargeBreakdown = ({ breakdown }: { breakdown: CostBreakdown }) => 
           </tbody>
         </table>
       </div>
-      <div className="px-4 py-3 flex items-center justify-between bg-[#0a0a0a] text-[#f9f9f7]">
-        <div className="kypnl-overline text-[#f9f9f7]">Total charges</div>
+      <div className="px-4 py-3 flex items-center justify-between bg-[#102A43] text-[#F7F5EF]">
+        <div className="kypnl-overline text-[#F7F5EF]">Total charges</div>
         <div className="font-mono-ibm text-lg" data-testid="charge-total">{inrCurrency(breakdown.total)}</div>
       </div>
     </div>

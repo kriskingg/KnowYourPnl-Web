@@ -5,17 +5,17 @@
 @tailwind utilities;
 
 :root {
-  --kypnl-bg: #f9f9f7;
+  --kypnl-bg: #F7F5EF;
   --kypnl-surface: #ffffff;
-  --kypnl-ink: #0a0a0a;
-  --kypnl-ink-2: #525252;
+  --kypnl-ink: #102A43;
+  --kypnl-ink-2: #486581;
   --kypnl-hair: #e5e5df;
-  --kypnl-heavy: #0a0a0a;
-  --kypnl-red: #d43325;
-  --kypnl-red-hover: #a82418;
-  --kypnl-green: #057a55;
+  --kypnl-heavy: #102A43;
+  --kypnl-red: #087F6D;
+  --kypnl-red-hover: #065F52;
+  --kypnl-green: #087F6D;
   --kypnl-amber: #d97706;
-  --kypnl-blue: #1d4ed8;
+  --kypnl-blue: #102A43;
 }
 
 @layer base {
@@ -68,7 +68,7 @@
   /* Selection */
   ::selection {
     background: var(--kypnl-ink);
-    color: #f9f9f7;
+    color: #F7F5EF;
   }
 }
 

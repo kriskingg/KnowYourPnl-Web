@@ -11,10 +11,10 @@ export const Brokers = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 md:px-6 py-10" data-testid="page-brokers">
-      <header className="mb-8 border-b border-black pb-6">
+      <header className="mb-8 border-b border-[#102A43] pb-6">
         <div className="kypnl-overline">Broker Directory</div>
         <h1 className="font-editorial text-4xl md:text-5xl font-semibold mt-2">Supported brokers.</h1>
-        <p className="text-[14px] text-[#525252] max-w-2xl mt-3">
+        <p className="text-[14px] text-[#486581] max-w-2xl mt-3">
           A broker appears here only after MTF tariff data has been captured, mapped and staged for
           verification. Only brokers with available calculation support are listed.
         </p>
@@ -28,7 +28,7 @@ export const Brokers = () => {
         ))}
       </div>
 
-      <div className="mt-8 border border-dashed border-[#0a0a0a] p-6 text-[13px] text-[#525252]">
+      <div className="mt-8 border border-dashed border-[#102A43] p-6 text-[13px] text-[#486581]">
         <span className="kypnl-overline block mb-2">On adding another broker</span>
         Additional brokers are staged internally but only shown here once their tariff records reach
         <span className="italic"> Formula Tested </span>or better verification status.
