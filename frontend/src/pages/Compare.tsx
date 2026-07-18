@@ -11,14 +11,18 @@ const inputCls =
   "rounded-none border-[#102A43] h-10 focus-visible:ring-1 focus-visible:ring-[#102A43] font-mono-ibm text-[13px]";
 
 type ComparisonScenario = Omit<CalculationInput, "brokerSlug" | "planId">;
+type ComparisonFormState = Omit<ComparisonScenario, "buyPrice" | "expectedSellPrice"> & {
+  buyPrice: string;
+  expectedSellPrice: string;
+};
 
 export const Compare = () => {
   const [brokers, setBrokers] = useState<Broker[]>([]);
   const [rows, setRows] = useState<BrokerComparisonResult[]>([]);
-  const [scenario, setScenario] = useState<ComparisonScenario>({
-    buyPrice: 2890.5,
+  const [scenario, setScenario] = useState<ComparisonFormState>({
+    buyPrice: "2890.50",
     quantity: 40,
-    expectedSellPrice: 3050,
+    expectedSellPrice: "3050.00",
     purchaseDate: "2026-01-08",
     expectedExitDate: "2026-03-08",
     pledgeRequests: 1,
@@ -32,7 +36,11 @@ export const Compare = () => {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      apiService.compareMtf(scenario).then(setRows).catch(() => setRows([]));
+      apiService.compareMtf({
+        ...scenario,
+        buyPrice: Number(scenario.buyPrice),
+        expectedSellPrice: Number(scenario.expectedSellPrice),
+      }).then(setRows).catch(() => setRows([]));
     }, 300);
     return () => window.clearTimeout(timer);
   }, [scenario]);
@@ -54,13 +62,13 @@ export const Compare = () => {
         <div className="px-4 py-3 border-b border-[#102A43] kypnl-overline">Scenario</div>
         <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-3">
           <Field label="Buy price">
-            <Input className={inputCls} type="number" value={scenario.buyPrice} onChange={(e) => setScenario({ ...scenario, buyPrice: Number(e.target.value) })} data-testid="compare-buy-price" />
+            <Input className={inputCls} type="number" inputMode="decimal" min="0.01" step="any" value={scenario.buyPrice} onChange={(e) => setScenario({ ...scenario, buyPrice: e.target.value })} data-testid="compare-buy-price" />
           </Field>
           <Field label="Quantity">
             <Input className={inputCls} type="number" value={scenario.quantity} onChange={(e) => setScenario({ ...scenario, quantity: Number(e.target.value) })} data-testid="compare-quantity" />
           </Field>
           <Field label="Sell price">
-            <Input className={inputCls} type="number" value={scenario.expectedSellPrice} onChange={(e) => setScenario({ ...scenario, expectedSellPrice: Number(e.target.value) })} data-testid="compare-sell-price" />
+            <Input className={inputCls} type="number" inputMode="decimal" min="0.01" step="any" value={scenario.expectedSellPrice} onChange={(e) => setScenario({ ...scenario, expectedSellPrice: e.target.value })} data-testid="compare-sell-price" />
           </Field>
           <Field label="Purchase date">
             <Input className={inputCls} type="date" value={scenario.purchaseDate} onChange={(e) => setScenario({ ...scenario, purchaseDate: e.target.value })} data-testid="compare-purchase-date" />

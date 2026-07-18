@@ -24,9 +24,9 @@ export const MtfCalculatorForm = ({ brokers, initialBrokerSlug, onResult }: Prop
     [brokers, brokerSlug],
   );
   const [planId, setPlanId] = useState(broker.plans[0].id);
-  const [buyPrice, setBuyPrice] = useState(2890.5);
+  const [buyPrice, setBuyPrice] = useState("2890.50");
   const [quantity, setQuantity] = useState(40);
-  const [expectedSellPrice, setExpectedSellPrice] = useState(3050);
+  const [expectedSellPrice, setExpectedSellPrice] = useState("3050.00");
   const [purchaseDate, setPurchaseDate] = useState("2026-01-08");
   const [expectedExitDate, setExpectedExitDate] = useState("2026-03-08");
   const [pledgeRequests, setPledgeRequests] = useState(1);
@@ -85,13 +85,13 @@ export const MtfCalculatorForm = ({ brokers, initialBrokerSlug, onResult }: Prop
           <BrokeragePlanSelector plans={broker.plans} value={planId} onChange={setPlanId} />
         </Field>
         <Field label="Buy price">
-          <Input className={inputCls} type="number" min="0.01" step="0.05" value={buyPrice} onChange={(e) => setBuyPrice(Number(e.target.value))} data-testid="input-buy-price" />
+          <Input className={inputCls} type="number" inputMode="decimal" min="0.01" step="any" value={buyPrice} onChange={(e) => setBuyPrice(e.target.value)} data-testid="input-buy-price" />
         </Field>
         <Field label="Quantity">
           <Input className={inputCls} type="number" min="1" step="1" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} data-testid="input-quantity" />
         </Field>
         <Field label="Expected sell price">
-          <Input className={inputCls} type="number" min="0.01" step="0.05" value={expectedSellPrice} onChange={(e) => setExpectedSellPrice(Number(e.target.value))} data-testid="input-sell-price" />
+          <Input className={inputCls} type="number" inputMode="decimal" min="0.01" step="any" value={expectedSellPrice} onChange={(e) => setExpectedSellPrice(e.target.value)} data-testid="input-sell-price" />
         </Field>
         <Field label="Purchase date">
           <Input className={inputCls} type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} data-testid="input-purchase-date" />
