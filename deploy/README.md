@@ -1,13 +1,36 @@
 # OCI deployment
 
-The production site is a static Vite build and does not require a paid
-application server or database.
+The public Vite build is served by Nginx. Broker tariffs and calculations run
+inside a private FastAPI process on the same OCI Always Free VM.
 
-1. Install Node.js 20+ and Nginx on the OCI VM.
-2. Clone this repository.
-3. In `frontend`, run `npm ci` and `npm run build`.
-4. Copy the contents of `frontend/dist` to `/var/www/knowyourpnl`.
+1. Install Node.js 20+, Python 3.11+, `python3-venv` and Nginx.
+2. Clone this repository to `/opt/knowyourpnl`.
+3. Build the public site:
+
+   ```bash
+   cd /opt/knowyourpnl/frontend
+   npm ci
+   npm run build
+   sudo rsync -a --delete dist/ /var/www/knowyourpnl/
+   ```
+
+4. Install the private API:
+
+   ```bash
+   cd /opt/knowyourpnl
+   python3 -m venv .venv
+   .venv/bin/pip install -r backend/requirements.txt
+   sudo install -d -m 700 /etc/knowyourpnl
+   sudo install -o root -g www-data -m 640 /secure/location/tariffs.json /etc/knowyourpnl/tariffs.json
+   sudo cp deploy/knowyourpnl-api.service /etc/systemd/system/
+   sudo systemctl daemon-reload
+   sudo systemctl enable --now knowyourpnl-api
+   ```
+
 5. Install `deploy/nginx.conf` as the Nginx site configuration and reload Nginx.
-6. Point the domain to the VM or publish Nginx through a Cloudflare Tunnel.
+6. Point the domain to the VM, or expose Nginx through a Cloudflare Tunnel.
 
-Keep the repository as the recovery source if an Always Free VM is reclaimed.
+The API binds only to `127.0.0.1:8000`; Nginx is the sole public entry point.
+Set `CORS_ORIGINS` in the service file to the final HTTPS domain before launch.
+The real tariff JSON must be transferred separately to the VM. It is ignored
+by Git and must never be committed or copied into the Nginx web root.

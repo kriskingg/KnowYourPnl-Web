@@ -1,0 +1,23 @@
+[Unit]
+Description=KnowYourPNL private calculation API
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/knowyourpnl
+Environment=CORS_ORIGINS=https://example.com
+Environment=API_RATE_LIMIT_PER_MINUTE=60
+Environment=BROKER_TARIFFS_FILE=/etc/knowyourpnl/tariffs.json
+ExecStart=/opt/knowyourpnl/.venv/bin/uvicorn backend.server:app --host 127.0.0.1 --port 8000 --workers 2 --no-access-log
+Restart=always
+RestartSec=3
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/opt/knowyourpnl
+
+[Install]
+WantedBy=multi-user.target

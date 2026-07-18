@@ -9,9 +9,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { inrCurrency, uid, displayDate } from "@/lib/formatters";
-import { calculateMtf } from "@/services/calculationService";
+import { apiService } from "@/services/apiService";
 import { toast } from "sonner";
-import { Plus, Download, Upload, Trash, RotateCcw } from "lucide-react";
+import { Plus, Download, Upload, Trash } from "lucide-react";
 
 const inputCls = "rounded-none border-[#102A43] h-9 font-mono-ibm text-[13px] focus-visible:ring-1 focus-visible:ring-[#102A43]";
 
@@ -42,9 +42,9 @@ const emptyLot = (broker: Broker): MtfLot => {
   };
 };
 
-const recomputeLot = (lot: MtfLot, broker: Broker): MtfLot => {
+const recomputeLot = async (lot: MtfLot): Promise<MtfLot> => {
   const today = new Date().toISOString().slice(0, 10);
-  const r = calculateMtf({
+  const r = await apiService.calculateMtf({
     brokerSlug: lot.brokerSlug,
     planId: lot.planId,
     buyPrice: lot.buyPrice,
@@ -52,22 +52,20 @@ const recomputeLot = (lot: MtfLot, broker: Broker): MtfLot => {
     expectedSellPrice: lot.currentPrice,
     purchaseDate: lot.purchaseDate,
     expectedExitDate: today,
-    userMarginPct: broker.mtf.minMarginPct,
-    brokerFundedPct: broker.mtf.brokerFundedPct,
-    annualInterestRatePct: broker.mtf.annualInterestRatePct,
     pledgeRequests: 1,
     unpledgeRequests: 0,
     dpDebitEvents: 0,
   });
-  const buyBrokerage = r.breakdown.buySide.find((l) => l.key === "buy_brokerage")!.amount;
-  const sellBrokerage = r.breakdown.sellSide.find((l) => l.key === "sell_brokerage")!.amount;
+  const entryCharges = r.breakdown.buySide.reduce((sum, line) => sum + line.amount, 0);
+  const exitCharges = [...r.breakdown.sellSide, ...r.breakdown.operational]
+    .reduce((sum, line) => sum + line.amount, 0);
   return {
     ...lot,
-    userCapital: r.userCapital,
-    brokerFunded: r.brokerFunded,
+    userCapital: 0,
+    brokerFunded: 0,
     mtfInterest: r.interestTotal,
-    entryCharges: buyBrokerage + r.breakdown.buySide.reduce((s, l) => s + (l.key !== "buy_brokerage" ? l.amount : 0), 0),
-    estimatedExitCharges: sellBrokerage + r.breakdown.sellSide.reduce((s, l) => s + (l.key !== "sell_brokerage" ? l.amount : 0), 0) + r.breakdown.operational.reduce((s, l) => s + l.amount, 0),
+    entryCharges,
+    estimatedExitCharges: exitCharges,
     breakevenPrice: r.breakevenPrice,
     unrealisedPnl: (lot.currentPrice - lot.buyPrice) * lot.quantity,
     estimatedNetPnl: r.netPnl,
@@ -78,6 +76,7 @@ export const Ledger = () => {
   const [lots, setLots] = useState<MtfLot[]>([]);
   const [brokers, setBrokers] = useState<Broker[]>([]);
   const [editing, setEditing] = useState<MtfLot | null>(null);
+  const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -104,11 +103,17 @@ export const Ledger = () => {
     toast.success("Position removed");
   };
 
-  const onSave = () => {
+  const onSave = async () => {
     if (!editing) return;
-    const broker = brokerFor(editing.brokerSlug);
-    if (!broker) return;
-    const recomputed = recomputeLot(editing, broker);
+    setSaving(true);
+    let recomputed: MtfLot;
+    try {
+      recomputed = await recomputeLot(editing);
+    } catch (reason) {
+      toast.error(reason instanceof Error ? reason.message : "Unable to calculate this position");
+      setSaving(false);
+      return;
+    }
     const exists = lots.find((l) => l.id === recomputed.id);
     if (exists) {
       setLots(ledgerService.update(recomputed.id, { ...recomputed, isMock: false, verificationStatus: "user_modified" }));
@@ -118,6 +123,7 @@ export const Ledger = () => {
       toast.success("Position added");
     }
     setEditing(null);
+    setSaving(false);
   };
 
   const onExport = () => {
@@ -149,11 +155,6 @@ export const Ledger = () => {
     setLots(ledgerService.clearAll());
   };
 
-  const onResetDemo = () => {
-    setLots(ledgerService.resetToDemo());
-    toast.success("Demo ledger restored");
-  };
-
   return (
     <div className="mx-auto max-w-7xl px-4 md:px-6 py-10" data-testid="page-ledger">
       <header className="border-b border-[#102A43] pb-6 mb-8 flex items-start justify-between gap-6 flex-wrap">
@@ -176,9 +177,6 @@ export const Ledger = () => {
             <Upload size={13} /> Import
             <input ref={fileRef} type="file" accept="application/json" className="hidden" onChange={onImport} data-testid="ledger-import-input" />
           </label>
-          <Button variant="outline" className="rounded-none border-[#102A43]" onClick={onResetDemo} data-testid="ledger-reset-button">
-            <RotateCcw size={13} className="mr-1" /> Reset to demo
-          </Button>
           <Button variant="outline" className="rounded-none border-[#102A43] hover:border-[#087F6D] hover:text-[#087F6D]" onClick={onClear} data-testid="ledger-clear-button">
             <Trash size={13} className="mr-1" /> Clear all
           </Button>
@@ -187,11 +185,11 @@ export const Ledger = () => {
 
       <section className="grid grid-cols-2 md:grid-cols-4 border border-[#102A43] bg-white mb-8" data-testid="ledger-summary">
         <SummaryCell label="Positions" value={String(summary.positions)} />
-        <SummaryCell label="User capital" value={inrCurrency(summary.totalUserCapital)} border />
-        <SummaryCell label="Broker funded" value={inrCurrency(summary.totalBrokerFunded)} border />
+        <SummaryCell label="Entry charges" value={inrCurrency(summary.totalEntryCharges)} border />
+        <SummaryCell label="Est. exit charges" value={inrCurrency(summary.totalEstimatedExitCharges)} border />
         <SummaryCell label="Interest accrued" value={inrCurrency(summary.totalInterestAccrued)} border />
-        <SummaryCell label="Entry charges" value={inrCurrency(summary.totalEntryCharges)} borderTop />
-        <SummaryCell label="Est. exit charges" value={inrCurrency(summary.totalEstimatedExitCharges)} border borderTop />
+        <SummaryCell label="Total estimated cost" value={inrCurrency(summary.totalInterestAccrued + summary.totalEntryCharges + summary.totalEstimatedExitCharges)} borderTop />
+        <SummaryCell label="Tariffs" value="Applied privately" border borderTop />
         <SummaryCell label="Unrealised P&L" value={inrCurrency(summary.totalUnrealisedPnl)} border borderTop tone={summary.totalUnrealisedPnl >= 0 ? "pos" : "neg"} />
         <SummaryCell label="Est. Net P&L" value={inrCurrency(summary.totalEstimatedNetPnl)} border borderTop tone={summary.totalEstimatedNetPnl >= 0 ? "pos" : "neg"} />
       </section>
@@ -255,7 +253,9 @@ export const Ledger = () => {
           )}
           <DialogFooter>
             <Button variant="outline" className="rounded-none border-[#102A43]" onClick={() => setEditing(null)} data-testid="editor-cancel">Cancel</Button>
-            <Button className="rounded-none bg-[#102A43] text-[#F7F5EF] hover:bg-[#087F6D]" onClick={onSave} data-testid="editor-save">Save</Button>
+            <Button disabled={saving} className="rounded-none bg-[#102A43] text-[#F7F5EF] hover:bg-[#087F6D]" onClick={() => void onSave()} data-testid="editor-save">
+              {saving ? "Calculating…" : "Save"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

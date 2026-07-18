@@ -2,6 +2,9 @@ frontend/node_modules/
 frontend/dist/
 frontend/tsconfig.tsbuildinfo
 frontend/.vite/
+.venv/
+backend/__pycache__/
+backend/private_tariffs.local.json
 *.log
 .env
 .env.*

@@ -5,7 +5,7 @@ import { BrokeragePlanSelector } from "./BrokeragePlanSelector";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { calculateMtf } from "@/services/calculationService";
+import { apiService } from "@/services/apiService";
 
 const inputCls =
   "rounded-none border-[#102A43] h-10 focus-visible:ring-1 focus-visible:ring-[#102A43] font-mono-ibm text-[13px]";
@@ -18,171 +18,105 @@ type Props = {
 
 export const MtfCalculatorForm = ({ brokers, initialBrokerSlug, onResult }: Props) => {
   const defaultBroker = brokers.find((b) => b.slug === initialBrokerSlug) ?? brokers[0];
-
   const [brokerSlug, setBrokerSlug] = useState(defaultBroker.slug);
-  const broker = useMemo(() => brokers.find((b) => b.slug === brokerSlug)!, [brokers, brokerSlug]);
+  const broker = useMemo(
+    () => brokers.find((candidate) => candidate.slug === brokerSlug) ?? brokers[0],
+    [brokers, brokerSlug],
+  );
   const [planId, setPlanId] = useState(broker.plans[0].id);
-
   const [buyPrice, setBuyPrice] = useState(2890.5);
   const [quantity, setQuantity] = useState(40);
   const [expectedSellPrice, setExpectedSellPrice] = useState(3050);
   const [purchaseDate, setPurchaseDate] = useState("2026-01-08");
   const [expectedExitDate, setExpectedExitDate] = useState("2026-03-08");
-  const [userMarginPct, setUserMarginPct] = useState(broker.mtf.minMarginPct);
-  const [brokerFundedPct, setBrokerFundedPct] = useState(broker.mtf.brokerFundedPct);
-  const [annualInterestRatePct, setAnnualInterestRatePct] = useState(broker.mtf.annualInterestRatePct);
-  const [buyBrokeragePct, setBuyBrokeragePct] = useState(broker.plans[0].buyBrokerage.value);
-  const [sellBrokeragePct, setSellBrokeragePct] = useState(broker.plans[0].sellBrokerage.value);
-  const [assumptions, setAssumptions] = useState({ ...broker.mtf });
   const [pledgeRequests, setPledgeRequests] = useState(1);
   const [unpledgeRequests, setUnpledgeRequests] = useState(1);
   const [dpDebitEvents, setDpDebitEvents] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Sync assumptions when broker changes
   useEffect(() => {
     setPlanId(broker.plans[0].id);
-    setUserMarginPct(broker.mtf.minMarginPct);
-    setBrokerFundedPct(broker.mtf.brokerFundedPct);
-    setAnnualInterestRatePct(broker.mtf.annualInterestRatePct);
-    setBuyBrokeragePct(broker.plans[0].buyBrokerage.value);
-    setSellBrokeragePct(broker.plans[0].sellBrokerage.value);
-    setAssumptions({ ...broker.mtf });
   }, [broker]);
 
-  const compute = () => {
-    const input: CalculationInput = {
-      brokerSlug,
-      planId,
-      buyPrice: Number(buyPrice) || 0,
-      quantity: Number(quantity) || 0,
-      expectedSellPrice: Number(expectedSellPrice) || 0,
-      purchaseDate,
-      expectedExitDate,
-      userMarginPct: Number(userMarginPct) || 0,
-      brokerFundedPct: Number(brokerFundedPct) || 0,
-      annualInterestRatePct: Number(annualInterestRatePct) || 0,
-      pledgeRequests: Number(pledgeRequests) || 0,
-      unpledgeRequests: Number(unpledgeRequests) || 0,
-      dpDebitEvents: Number(dpDebitEvents) || 0,
-      buyBrokeragePct: Number(buyBrokeragePct) || 0,
-      sellBrokeragePct: Number(sellBrokeragePct) || 0,
-      overrides: assumptions,
-    };
-    onResult(calculateMtf(input));
-  };
-
-  // Auto-calculate on mount and on input changes for live UX
-  useEffect(() => {
-    compute();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
+  const input = (): CalculationInput => ({
     brokerSlug,
     planId,
-    buyPrice,
-    quantity,
-    expectedSellPrice,
+    buyPrice: Number(buyPrice) || 0,
+    quantity: Number(quantity) || 0,
+    expectedSellPrice: Number(expectedSellPrice) || 0,
     purchaseDate,
     expectedExitDate,
-    userMarginPct,
-    brokerFundedPct,
-    annualInterestRatePct,
-    pledgeRequests,
-    unpledgeRequests,
-    dpDebitEvents,
-    buyBrokeragePct,
-    sellBrokeragePct,
-    assumptions,
-  ]);
+    pledgeRequests: Number(pledgeRequests) || 0,
+    unpledgeRequests: Number(unpledgeRequests) || 0,
+    dpDebitEvents: Number(dpDebitEvents) || 0,
+  });
+
+  const compute = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      onResult(await apiService.calculateMtf(input()));
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Unable to calculate right now");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <form className="border border-[#102A43] bg-white" onSubmit={(e) => { e.preventDefault(); compute(); }} data-testid="mtf-calculator-form">
+    <form
+      className="border border-[#102A43] bg-white"
+      onSubmit={(event) => {
+        event.preventDefault();
+        void compute();
+      }}
+      data-testid="mtf-calculator-form"
+    >
       <div className="px-4 py-3 border-b border-[#102A43] flex items-center justify-between">
-        <h3 className="font-editorial text-lg font-semibold">MTF Inputs</h3>
-        <span className="kypnl-overline">All values editable</span>
+        <h3 className="font-editorial text-lg font-semibold">Trade Scenario</h3>
+        <span className="kypnl-overline">Tariffs applied securely</span>
       </div>
-      <div className="p-4 grid grid-cols-2 gap-3">
+      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Field label="Broker">
           <BrokerSelector brokers={brokers} value={brokerSlug} onChange={setBrokerSlug} />
         </Field>
         <Field label="Plan">
           <BrokeragePlanSelector plans={broker.plans} value={planId} onChange={setPlanId} />
         </Field>
-
         <Field label="Buy price">
-          <Input className={inputCls} type="number" step="0.05" value={buyPrice} onChange={(e) => setBuyPrice(Number(e.target.value))} data-testid="input-buy-price" />
+          <Input className={inputCls} type="number" min="0.01" step="0.05" value={buyPrice} onChange={(e) => setBuyPrice(Number(e.target.value))} data-testid="input-buy-price" />
         </Field>
         <Field label="Quantity">
-          <Input className={inputCls} type="number" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} data-testid="input-quantity" />
+          <Input className={inputCls} type="number" min="1" step="1" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} data-testid="input-quantity" />
         </Field>
-
         <Field label="Expected sell price">
-          <Input className={inputCls} type="number" step="0.05" value={expectedSellPrice} onChange={(e) => setExpectedSellPrice(Number(e.target.value))} data-testid="input-sell-price" />
+          <Input className={inputCls} type="number" min="0.01" step="0.05" value={expectedSellPrice} onChange={(e) => setExpectedSellPrice(Number(e.target.value))} data-testid="input-sell-price" />
         </Field>
         <Field label="Purchase date">
           <Input className={inputCls} type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} data-testid="input-purchase-date" />
         </Field>
-
         <Field label="Expected exit date">
           <Input className={inputCls} type="date" value={expectedExitDate} onChange={(e) => setExpectedExitDate(e.target.value)} data-testid="input-exit-date" />
         </Field>
-        <Field label="MTF interest (% p.a.)">
-          <Input className={inputCls} type="number" step="0.01" value={annualInterestRatePct} onChange={(e) => setAnnualInterestRatePct(Number(e.target.value))} data-testid="input-interest" />
-        </Field>
-
-        <Field label="User margin (%)">
-          <Input className={inputCls} type="number" step="0.5" value={userMarginPct} onChange={(e) => setUserMarginPct(Number(e.target.value))} data-testid="input-user-margin" />
-        </Field>
-        <Field label="Broker funded (%)">
-          <Input className={inputCls} type="number" step="0.5" value={brokerFundedPct} onChange={(e) => setBrokerFundedPct(Number(e.target.value))} data-testid="input-broker-funded" />
-        </Field>
-
         <Field label="Pledge requests">
-          <Input className={inputCls} type="number" value={pledgeRequests} onChange={(e) => setPledgeRequests(Number(e.target.value))} data-testid="input-pledge" />
+          <Input className={inputCls} type="number" min="0" max="100" step="1" value={pledgeRequests} onChange={(e) => setPledgeRequests(Number(e.target.value))} data-testid="input-pledge" />
         </Field>
         <Field label="Unpledge requests">
-          <Input className={inputCls} type="number" value={unpledgeRequests} onChange={(e) => setUnpledgeRequests(Number(e.target.value))} data-testid="input-unpledge" />
+          <Input className={inputCls} type="number" min="0" max="100" step="1" value={unpledgeRequests} onChange={(e) => setUnpledgeRequests(Number(e.target.value))} data-testid="input-unpledge" />
         </Field>
-
         <Field label="DP debit events">
-          <Input className={inputCls} type="number" value={dpDebitEvents} onChange={(e) => setDpDebitEvents(Number(e.target.value))} data-testid="input-dp" />
+          <Input className={inputCls} type="number" min="0" max="100" step="1" value={dpDebitEvents} onChange={(e) => setDpDebitEvents(Number(e.target.value))} data-testid="input-dp" />
         </Field>
-        <Field label="Buy brokerage (%)">
-          <Input className={inputCls} type="number" step="0.001" value={buyBrokeragePct} onChange={(e) => setBuyBrokeragePct(Number(e.target.value))} data-testid="input-buy-brokerage" />
-        </Field>
-        <Field label="Sell brokerage (%)">
-          <Input className={inputCls} type="number" step="0.001" value={sellBrokeragePct} onChange={(e) => setSellBrokeragePct(Number(e.target.value))} data-testid="input-sell-brokerage" />
-        </Field>
-        <Field label="Pledge fee (₹)">
-          <Input className={inputCls} type="number" step="0.01" value={assumptions.pledgeFeeFlat} onChange={(e) => setAssumptions({ ...assumptions, pledgeFeeFlat: Number(e.target.value) })} />
-        </Field>
-        <Field label="Unpledge fee (₹)">
-          <Input className={inputCls} type="number" step="0.01" value={assumptions.unpledgeFeeFlat} onChange={(e) => setAssumptions({ ...assumptions, unpledgeFeeFlat: Number(e.target.value) })} />
-        </Field>
-        <Field label="DP charge (₹)">
-          <Input className={inputCls} type="number" step="0.01" value={assumptions.dpChargeFlat} onChange={(e) => setAssumptions({ ...assumptions, dpChargeFlat: Number(e.target.value) })} />
-        </Field>
-        <Field label="GST on charges (%)">
-          <Input className={inputCls} type="number" step="0.01" value={assumptions.gstOnCharges} onChange={(e) => setAssumptions({ ...assumptions, gstOnCharges: Number(e.target.value) })} />
-        </Field>
-        <Field label="Stamp duty (%)">
-          <Input className={inputCls} type="number" step="0.0001" value={assumptions.stampDuty} onChange={(e) => setAssumptions({ ...assumptions, stampDuty: Number(e.target.value) })} />
-        </Field>
-        <Field label="Exchange charge (%)">
-          <Input className={inputCls} type="number" step="0.00001" value={assumptions.exchangeTxnPct} onChange={(e) => setAssumptions({ ...assumptions, exchangeTxnPct: Number(e.target.value) })} />
-        </Field>
-        <Field label="SEBI charge (%)">
-          <Input className={inputCls} type="number" step="0.00001" value={assumptions.sebiChargesPct} onChange={(e) => setAssumptions({ ...assumptions, sebiChargesPct: Number(e.target.value) })} />
-        </Field>
-        <Field label="IPFT (%)">
-          <Input className={inputCls} type="number" step="0.00001" value={assumptions.ipftPct} onChange={(e) => setAssumptions({ ...assumptions, ipftPct: Number(e.target.value) })} />
-        </Field>
-        <div className="flex items-end">
+        <div className="sm:col-span-2">
+          {error && <p className="mb-2 text-[12px] text-red-700" role="alert">{error}</p>}
           <Button
             type="submit"
-            className="w-full rounded-none bg-[#102A43] text-[#F7F5EF] hover:bg-[#087F6D] h-10 font-medium"
+            disabled={loading}
+            className="w-full rounded-none bg-[#102A43] text-[#F7F5EF] hover:bg-[#087F6D] h-10 font-medium disabled:opacity-60"
             data-testid="calculate-mtf-button"
           >
-            Recalculate
+            {loading ? "Calculating…" : "Calculate securely"}
           </Button>
         </div>
       </div>

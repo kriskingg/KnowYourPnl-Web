@@ -2,28 +2,23 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { brokerService } from "@/services/brokerService";
 import { tariffService } from "@/services/tariffService";
-import type { Broker, EvidenceRecord, TariffVersion } from "@/types";
-import { ChargeTable } from "@/components/shared/ChargeTable";
-import { EvidencePanel } from "@/components/shared/EvidencePanel";
+import type { Broker, TariffVersion } from "@/types";
 import { TariffVersionCard } from "@/components/shared/TariffVersionCard";
 import { VerificationBadge } from "@/components/shared/VerificationBadge";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, LockKeyhole } from "lucide-react";
 import { displayDate } from "@/lib/formatters";
 
 export const BrokerProfile = () => {
   const { brokerSlug = "" } = useParams();
   const [broker, setBroker] = useState<Broker | null>(null);
-  const [evidence, setEvidence] = useState<EvidenceRecord[]>([]);
   const [history, setHistory] = useState<TariffVersion[]>([]);
 
   useEffect(() => {
-    brokerService.getBySlug(brokerSlug).then((b) => setBroker(b ?? null));
-    brokerService.getEvidence(brokerSlug).then(setEvidence);
+    brokerService.getBySlug(brokerSlug).then((value) => setBroker(value ?? null));
     tariffService.listHistory(brokerSlug).then(setHistory);
   }, [brokerSlug]);
 
   if (!broker) return <div className="p-8">Loading broker…</div>;
-
   const current = history[0];
 
   return (
@@ -40,35 +35,35 @@ export const BrokerProfile = () => {
         <div className="flex flex-col items-end gap-2">
           <VerificationBadge status={broker.verificationStatus} size="md" />
           <div className="text-[12px] text-[#486581]">
-            Tariff <span className="font-mono-ibm">{broker.currentTariffVersion}</span>
-            {current && <> · Last verified {displayDate(broker.lastVerificationDate)}</>}
+            Model {broker.currentTariffVersion} · Last checked {displayDate(broker.lastVerificationDate)}
           </div>
           <Link
             to={`/brokers/${broker.slug}/mtf`}
             className="inline-flex items-center gap-1 bg-[#102A43] text-[#F7F5EF] px-3 py-2 text-[13px] font-medium hover:bg-[#087F6D]"
-            data-testid="link-broker-mtf"
           >
-            MTF page <ArrowRight size={13} strokeWidth={2} />
+            MTF intelligence <ArrowRight size={13} />
           </Link>
         </div>
       </header>
 
-      <section className="mb-10">
-        <div className="kypnl-overline mb-3">Charges</div>
-        <ChargeTable broker={broker} />
+      <section className="mb-10 border border-[#102A43] bg-white p-6 flex items-start gap-4">
+        <LockKeyhole size={20} className="text-[#087F6D] shrink-0 mt-1" />
+        <div>
+          <div className="kypnl-overline">Protected broker intelligence</div>
+          <h2 className="font-editorial text-2xl font-semibold mt-2">Rates and calculation rules are applied server-side.</h2>
+          <p className="text-[13px] text-[#486581] mt-2 max-w-3xl">
+            KnowYourPNL tracks this broker’s MTF charges internally. Public pages show coverage,
+            verification status and version freshness without publishing the underlying tariff database.
+          </p>
+        </div>
       </section>
 
       {current && (
         <section className="mb-10">
-          <div className="kypnl-overline mb-3">Current Tariff Version</div>
+          <div className="kypnl-overline mb-3">Current Model Version</div>
           <TariffVersionCard version={current} />
         </section>
       )}
-
-      <section className="mb-10">
-        <div className="kypnl-overline mb-3">Evidence</div>
-        <EvidencePanel records={evidence} />
-      </section>
 
       <p className="text-[11px] text-[#486581] italic border-t border-[#e5e5df] pt-4">{broker.disclaimer}</p>
     </div>

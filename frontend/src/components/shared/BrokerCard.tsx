@@ -23,10 +23,10 @@ export const BrokerCard = ({ broker }: { broker: Broker }) => {
         <dl className="grid grid-cols-2 gap-y-2 gap-x-4 text-[13px] mt-4">
           <dt className="kypnl-overline">Tariff</dt>
           <dd className="text-right font-mono-ibm">{broker.currentTariffVersion}</dd>
-          <dt className="kypnl-overline">Interest</dt>
-          <dd className="text-right kypnl-tab-num">{broker.mtf.annualInterestRatePct}% p.a.</dd>
-          <dt className="kypnl-overline">Broker Funded</dt>
-          <dd className="text-right kypnl-tab-num">{broker.mtf.brokerFundedPct}%</dd>
+          <dt className="kypnl-overline">Plans modelled</dt>
+          <dd className="text-right kypnl-tab-num">{broker.plans.length}</dd>
+          <dt className="kypnl-overline">Model</dt>
+          <dd className="text-right">Private server</dd>
           <dt className="kypnl-overline">Last Verified</dt>
           <dd className="text-right">{displayDate(broker.lastVerificationDate)}</dd>
         </dl>

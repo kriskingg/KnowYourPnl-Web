@@ -13,10 +13,10 @@ export const DataSources = () => (
   <div className="mx-auto max-w-7xl px-4 md:px-6 py-10" data-testid="page-data-sources">
     <header className="border-b border-[#102A43] pb-6 mb-10">
       <div className="kypnl-overline">Data Sources</div>
-      <h1 className="font-editorial text-4xl md:text-5xl font-semibold mt-2">Where every number comes from.</h1>
+      <h1 className="font-editorial text-4xl md:text-5xl font-semibold mt-2">How our intelligence is verified.</h1>
       <p className="text-[14px] text-[#486581] max-w-3xl mt-3">
-        We refuse to display an unlabelled tariff. Every value we store is stamped with a
-        verification status and a citation.
+        Every private tariff record is stamped with a verification status, source and review date.
+        Exact values and citations stay inside the protected calculation service.
       </p>
     </header>
 
@@ -33,7 +33,7 @@ export const DataSources = () => (
     </section>
 
     <section className="mb-10">
-      <div className="kypnl-overline mb-3">Fields captured per tariff value</div>
+      <div className="kypnl-overline mb-3">Internally captured per tariff value</div>
       <ul className="border border-[#102A43] bg-white grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#e5e5df]">
         {[
           "Broker & brokerage plan",

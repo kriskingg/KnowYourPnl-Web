@@ -5,5 +5,11 @@ import path from "node:path";
 export default defineConfig({
   plugins: [react()],
   resolve: { alias: { "@": path.resolve(__dirname, "src") } },
-  build: { outDir: "dist", sourcemap: true },
+  server: {
+    proxy: { "/api": "http://127.0.0.1:8000" },
+  },
+  preview: {
+    proxy: { "/api": "http://127.0.0.1:8000" },
+  },
+  build: { outDir: "dist", sourcemap: false },
 });

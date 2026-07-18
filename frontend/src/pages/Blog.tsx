@@ -10,7 +10,7 @@ export const Blog = () => (
     <header className="border-b border-[#102A43] pb-7">
       <div className="kypnl-overline">MTF Journal</div>
       <h1 className="font-editorial text-4xl md:text-6xl mt-2">Understand leverage before using it.</h1>
-      <p className="mt-4 max-w-2xl text-[#555]">Original explainers built around transparent formulas, tariff evidence and practical MTF decisions.</p>
+      <p className="mt-4 max-w-2xl text-[#555]">Original explainers about MTF cost, risk and practical decision-making without publishing our broker model.</p>
     </header>
     <AdSlot id="blog-top" />
     <div className="grid md:grid-cols-3 border-t border-l border-[#102A43]">

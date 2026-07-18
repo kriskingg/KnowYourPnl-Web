@@ -1,17 +1,18 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { brokerService } from "@/services/brokerService";
-import type { Broker, CalculationResult } from "@/types";
+import { apiService } from "@/services/apiService";
+import type { Broker, CalculationResult, HoldingPeriodProjectionRow } from "@/types";
 import { MtfCalculatorForm } from "@/components/shared/MtfCalculatorForm";
 import { CalculationSummary } from "@/components/shared/CalculationSummary";
 import { ChargeBreakdown } from "@/components/shared/ChargeBreakdown";
 import { HoldingPeriodProjection } from "@/components/shared/HoldingPeriodProjection";
-import { projectHoldingPeriods } from "@/services/calculationService";
 import { AdSlot } from "@/components/shared/AdSlot";
 
 export const Calculator = () => {
   const [brokers, setBrokers] = useState<Broker[]>([]);
   const [result, setResult] = useState<CalculationResult | null>(null);
+  const [projection, setProjection] = useState<HoldingPeriodProjectionRow[]>([]);
   const [params] = useSearchParams();
   const initialSlug = params.get("broker") ?? undefined;
 
@@ -19,9 +20,12 @@ export const Calculator = () => {
     brokerService.list().then(setBrokers);
   }, []);
 
-  const projection = useMemo(() => {
-    if (!result) return [];
-    return projectHoldingPeriods(result.input);
+  useEffect(() => {
+    if (!result) {
+      setProjection([]);
+      return;
+    }
+    apiService.projectMtf(result.input).then(setProjection).catch(() => setProjection([]));
   }, [result]);
 
   if (brokers.length === 0) return <div className="p-8">Loading…</div>;
@@ -34,8 +38,8 @@ export const Calculator = () => {
           The true cost of a single MTF trade.
         </h1>
         <p className="text-[14px] text-[#486581] max-w-2xl mt-3">
-          Every value is editable. Assumptions default to the broker's demonstrated tariff.
-          Nothing is submitted anywhere — calculations run locally.
+          Enter only your trade scenario. KnowYourPNL applies its maintained broker tariff model
+          securely on the server; broker rates and calculation rules are never sent to your browser.
         </p>
       </header>
 
@@ -44,9 +48,14 @@ export const Calculator = () => {
           <MtfCalculatorForm brokers={brokers} initialBrokerSlug={initialSlug} onResult={setResult} />
         </div>
         <div className="md:col-span-7 space-y-6">
+          {!result && (
+            <div className="border border-dashed border-[#102A43] p-8 text-[13px] text-[#486581]">
+              Complete the scenario and select “Calculate securely” to see the estimate.
+            </div>
+          )}
           {result && <CalculationSummary result={result} />}
           {result && <ChargeBreakdown breakdown={result.breakdown} />}
-          {result && projection.length > 0 && <HoldingPeriodProjection rows={projection} />}
+          {projection.length > 0 && <HoldingPeriodProjection rows={projection} />}
         </div>
       </div>
       <AdSlot id="calculator-after-results" />

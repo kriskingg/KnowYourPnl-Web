@@ -18,8 +18,6 @@ export const BrokerComparisonTable = ({ rows }: { rows: BrokerComparisonResult[]
             <th>Plan</th>
             <th>Verification</th>
             <th className="num">Interest</th>
-            <th className="num">Brokerage</th>
-            <th className="num">Taxes + Ops</th>
             <th className="num">Total Cost</th>
             <th className="num">Break-even</th>
             <th className="num">Net P&L</th>
@@ -36,8 +34,6 @@ export const BrokerComparisonTable = ({ rows }: { rows: BrokerComparisonResult[]
               <td className="text-[13px]">{r.planName}</td>
               <td><VerificationBadge status={r.verificationStatus} /></td>
               <td className="num font-mono-ibm">{inrCurrency(r.interest)}</td>
-              <td className="num font-mono-ibm">{inrCurrency(r.brokerage)}</td>
-              <td className="num font-mono-ibm">{inrCurrency(r.taxesAndOps)}</td>
               <td className="num font-mono-ibm font-semibold">{inrCurrency(r.totalCost)}</td>
               <td className="num font-mono-ibm">{inrCurrency(r.breakevenPrice, { decimals: 2 })}</td>
               <td className={`num font-mono-ibm ${r.netPnl >= 0 ? "text-[#087F6D]" : "text-[#087F6D]"}`}>{inrCurrency(r.netPnl)}</td>

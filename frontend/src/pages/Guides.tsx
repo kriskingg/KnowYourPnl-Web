@@ -7,7 +7,7 @@ export const Guides = () => (
     <header className="border-b border-[#102A43] pb-6 mb-10">
       <div className="kypnl-overline">Published guides</div>
       <h1 className="font-editorial text-4xl md:text-5xl font-semibold mt-2">Read before you leverage.</h1>
-      <p className="text-sm text-[#486581] max-w-3xl mt-3">Original explanations connected to the formulas and evidence used across KnowYourPNL.</p>
+      <p className="text-sm text-[#486581] max-w-3xl mt-3">Original explanations of MTF cost concepts, risk and responsible interpretation of estimates.</p>
     </header>
     <ul className="grid md:grid-cols-2 border border-[#102A43] bg-white">
       {blogPosts.map((guide, index) => (

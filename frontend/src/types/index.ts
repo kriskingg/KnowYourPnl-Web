@@ -8,63 +8,10 @@ export type VerificationStatus =
   | "user_modified"
   | "review_required";
 
-export interface EvidenceRecord {
-  id: string;
-  broker: string;
-  planId?: string;
-  chargeName: string;
-  sourceTitle: string;
-  sourceType: "official_pricing_page" | "account_statement" | "help_article" | "regulatory_notice" | "internal_test";
-  sourceReference: string; // URL or citation
-  effectiveDate: string; // ISO date
-  lastCheckedDate: string; // ISO date
-  publishedValue: string;
-  observedValue?: string;
-  verificationStatus: VerificationStatus;
-  notes?: string;
-}
-
-export interface ChargeDefinition {
-  key: string;
-  label: string;
-  unit: "percent" | "flat" | "per_event" | "per_share" | "annual_percent" | "daily_percent";
-  side?: "buy" | "sell" | "both";
-  description?: string;
-}
-
-export interface ChargeRule {
-  chargeKey: string;
-  value: number; // interpreted per unit
-  unit: ChargeDefinition["unit"];
-  min?: number;
-  max?: number;
-  gstApplicable?: boolean;
-  notes?: string;
-  verificationStatus: VerificationStatus;
-  evidenceId?: string;
-}
-
-export interface MtfConfiguration {
-  annualInterestRatePct: number; // e.g. 14.99
-  minMarginPct: number; // user margin required %
-  brokerFundedPct: number; // e.g. 75
-  pledgeFeeFlat: number;
-  unpledgeFeeFlat: number;
-  dpChargeFlat: number;
-  gstOnCharges: number; // e.g. 18
-  stt: { buy: number; sell: number }; // as % of turnover
-  stampDuty: number; // % of buy turnover
-  exchangeTxnPct: number; // % of turnover (buy+sell)
-  sebiChargesPct: number; // % of turnover
-  ipftPct: number; // % of turnover
-}
-
 export interface BrokeragePlan {
   id: string;
   name: string;
   description: string;
-  buyBrokerage: ChargeRule;
-  sellBrokerage: ChargeRule;
   isDefault?: boolean;
 }
 
@@ -81,13 +28,6 @@ export interface TariffVersion {
   lastCheckedDate: string;
 }
 
-export interface TariffChange {
-  chargeKey: string;
-  previousValue?: string;
-  newValue: string;
-  note?: string;
-}
-
 export interface Broker {
   slug: string;
   name: string;
@@ -101,8 +41,6 @@ export interface Broker {
   lastVerificationDate: string;
   verificationStatus: VerificationStatus;
   plans: BrokeragePlan[];
-  mtf: MtfConfiguration;
-  evidenceIds: string[];
   disclaimer: string;
 }
 
@@ -114,16 +52,9 @@ export interface CalculationInput {
   expectedSellPrice: number;
   purchaseDate: string; // ISO
   expectedExitDate: string; // ISO
-  userMarginPct: number;
-  brokerFundedPct: number;
-  annualInterestRatePct: number;
   pledgeRequests: number;
   unpledgeRequests: number;
   dpDebitEvents: number;
-  buyBrokeragePct?: number;
-  sellBrokeragePct?: number;
-  // Optional user overrides
-  overrides?: Partial<MtfConfiguration>;
 }
 
 export interface CostLine {
@@ -140,22 +71,18 @@ export interface CostBreakdown {
   sellSide: CostLine[];
   holding: CostLine[];
   operational: CostLine[];
-  gstOnAll: number;
   total: number;
 }
 
 export interface CalculationResult {
   input: CalculationInput;
   tradeValue: number;
-  userCapital: number;
-  brokerFunded: number;
   holdingDays: number;
   interestTotal: number;
   breakdown: CostBreakdown;
   grossPnl: number;
   netPnl: number;
   breakevenPrice: number;
-  returnOnUserCapitalPct: number;
   returnOnMarketExposurePct: number;
   methodologyVersion: string;
   tariffVersion: string;
@@ -215,8 +142,6 @@ export interface BrokerComparisonResult {
   tradeValue: number;
   totalCost: number;
   interest: number;
-  brokerage: number;
-  taxesAndOps: number;
   netPnl: number;
   breakevenPrice: number;
   verificationStatus: VerificationStatus;

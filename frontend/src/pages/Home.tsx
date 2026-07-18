@@ -16,7 +16,7 @@ export const Home = () => {
             <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-[#102A43]">
               Calculate MTF interest, brokerage, taxes, pledge charges, unpledge charges, DP charges,
               break-even price and estimated net profit using transparent, broker-specific
-              assumptions — with every value traceable to a verifiable source.
+              broker intelligence — maintained and applied securely by KnowYourPNL.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
@@ -72,7 +72,7 @@ export const Home = () => {
           <Capability
             icon={<BookOpen size={16} strokeWidth={1.75} />}
             title="Methodology"
-            body="Formulas, assumptions and verification statuses that determine every value on this site."
+            body="Versioned broker models and verification controls applied privately on the server."
             to="/methodology"
             testid="capability-methodology"
             border

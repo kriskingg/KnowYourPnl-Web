@@ -11,13 +11,13 @@ export const Disclaimer = () => (
         sell any security, or a solicitation to trade.
       </p>
       <p>
-        All tariff values shown at launch are demonstration data pending account-statement
+        Tariff models may contain estimated or review-required data pending account-statement
         verification. Broker names, logos and product marks remain the property of their respective
         owners. KnowYourPNL is not affiliated with, endorsed by, or licensed from any broker.
       </p>
       <p>
-        Calculations run locally in your browser using the assumptions you provide. Actual charges,
-        interest, taxes and net outcomes will vary based on your specific account terms, statutory
+        Trade-scenario inputs are sent to the KnowYourPNL calculation API and are not intentionally
+        retained. Actual charges, interest, taxes and net outcomes will vary based on your specific account terms, statutory
         changes, and market execution. Always verify against your own account statement before
         making any decision.
       </p>

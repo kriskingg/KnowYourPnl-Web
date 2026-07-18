@@ -9,16 +9,17 @@ export const About = () => (
         <p>
           KnowYourPNL is an independent research surface for the true cost of Margin Trading Facility
           (MTF) in India. We reconcile broker interest rates, brokerage plans, statutory levies and
-          depository charges into a single, editable calculation.
+          depository charges into a single server-calculated estimate.
         </p>
         <p>
           We are not a broker. We are not a distributor. We do not receive commissions from the
           brokers we cover. Everything on this site is either derived from public disclosures or
-          contributed and cross-checked by users, and every value carries a verification status.
+          contributed and cross-checked by users. The underlying tariff database remains private,
+          while each public broker model carries a verification status.
         </p>
         <p>
-          The visible product is intentionally focused on MTF. We publish only tools and tariff
-          evidence that are currently supported, without speculative product placeholders.
+          The visible product is intentionally focused on MTF. We publish supported tools and model
+          freshness without exposing the underlying rates, evidence trail or calculation rules.
         </p>
       </div>
       <aside className="md:col-span-4 border border-[#102A43] bg-white p-5 text-[13px]">

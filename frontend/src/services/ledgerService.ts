@@ -1,5 +1,4 @@
 import type { MtfLot, PortfolioSummary } from "@/types";
-import { MOCK } from "./mockData";
 
 const STORAGE_KEY = "kypnl.mtf.ledger.v1";
 
@@ -23,8 +22,8 @@ export const ledgerService = {
   init(): MtfLot[] {
     const existing = readRaw();
     if (existing) return existing;
-    write(MOCK.seedLedger);
-    return MOCK.seedLedger;
+    write([]);
+    return [];
   },
   list(): MtfLot[] {
     return readRaw() ?? this.init();
@@ -48,10 +47,6 @@ export const ledgerService = {
   clearAll() {
     write([]);
     return [] as MtfLot[];
-  },
-  resetToDemo() {
-    write(MOCK.seedLedger);
-    return MOCK.seedLedger;
   },
   exportJson(): string {
     return JSON.stringify(this.list(), null, 2);

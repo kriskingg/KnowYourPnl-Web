@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { brokerService } from "@/services/brokerService";
+import { apiService } from "@/services/apiService";
 import type { Broker, BrokerComparisonResult, CalculationInput } from "@/types";
-import { calculateMtf } from "@/services/calculationService";
 import { BrokerComparisonTable } from "@/components/shared/BrokerComparisonTable";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,9 +10,12 @@ import { Info } from "lucide-react";
 const inputCls =
   "rounded-none border-[#102A43] h-10 focus-visible:ring-1 focus-visible:ring-[#102A43] font-mono-ibm text-[13px]";
 
+type ComparisonScenario = Omit<CalculationInput, "brokerSlug" | "planId">;
+
 export const Compare = () => {
   const [brokers, setBrokers] = useState<Broker[]>([]);
-  const [scenario, setScenario] = useState({
+  const [rows, setRows] = useState<BrokerComparisonResult[]>([]);
+  const [scenario, setScenario] = useState<ComparisonScenario>({
     buyPrice: 2890.5,
     quantity: 40,
     expectedSellPrice: 3050,
@@ -27,44 +30,12 @@ export const Compare = () => {
     brokerService.list().then(setBrokers);
   }, []);
 
-  const rows: BrokerComparisonResult[] = useMemo(() => {
-    return brokers.map((b) => {
-      const input: CalculationInput = {
-        brokerSlug: b.slug,
-        planId: b.plans[0].id,
-        buyPrice: scenario.buyPrice,
-        quantity: scenario.quantity,
-        expectedSellPrice: scenario.expectedSellPrice,
-        purchaseDate: scenario.purchaseDate,
-        expectedExitDate: scenario.expectedExitDate,
-        userMarginPct: b.mtf.minMarginPct,
-        brokerFundedPct: b.mtf.brokerFundedPct,
-        annualInterestRatePct: b.mtf.annualInterestRatePct,
-        pledgeRequests: scenario.pledgeRequests,
-        unpledgeRequests: scenario.unpledgeRequests,
-        dpDebitEvents: scenario.dpDebitEvents,
-      };
-      const r = calculateMtf(input);
-      const brokerageSum =
-        r.breakdown.buySide.find((l) => l.key === "buy_brokerage")!.amount +
-        r.breakdown.sellSide.find((l) => l.key === "sell_brokerage")!.amount;
-      const taxesAndOps = r.breakdown.total - r.interestTotal - brokerageSum;
-      return {
-        brokerSlug: b.slug,
-        brokerName: b.name,
-        planId: b.plans[0].id,
-        planName: b.plans[0].name,
-        tradeValue: r.tradeValue,
-        totalCost: r.breakdown.total,
-        interest: r.interestTotal,
-        brokerage: brokerageSum,
-        taxesAndOps,
-        netPnl: r.netPnl,
-        breakevenPrice: r.breakevenPrice,
-        verificationStatus: b.verificationStatus,
-      };
-    });
-  }, [brokers, scenario]);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      apiService.compareMtf(scenario).then(setRows).catch(() => setRows([]));
+    }, 300);
+    return () => window.clearTimeout(timer);
+  }, [scenario]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 md:px-6 py-10" data-testid="page-compare">
@@ -74,8 +45,8 @@ export const Compare = () => {
           One trade. Every supported broker.
         </h1>
         <p className="text-[14px] text-[#486581] max-w-2xl mt-3">
-          Enter a single MTF scenario. Every broker's tariff is applied identically. The lowest-cost
-          broker for this scenario is highlighted.
+          Enter one scenario. Our private server applies each broker’s maintained tariff model
+          consistently without exposing the underlying rates or rules.
         </p>
       </header>
 
@@ -117,9 +88,7 @@ export const Compare = () => {
           <div className="text-[13px]">
             <div className="font-medium">Broker comparison is limited today.</div>
             <p className="text-[#486581] mt-1">
-              Broker comparison will become fully useful once another broker has verified MTF tariff
-              support. The comparison engine below is fully data-driven and will automatically show
-              additional brokers as soon as they are on-boarded.
+              Additional brokers will appear after their private tariff models pass verification.
             </p>
           </div>
         </div>
