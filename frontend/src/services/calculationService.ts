@@ -1,15 +1,15 @@
-"import type {
+import type {
   Broker,
   CalculationInput,
   CalculationResult,
   CostBreakdown,
   CostLine,
   HoldingPeriodProjectionRow,
-} from \"@/types\";
-import { daysBetween } from \"@/lib/formatters\";
-import { MOCK } from \"./mockData\";
+} from "@/types";
+import { daysBetween } from "@/lib/formatters";
+import { MOCK } from "./mockData";
 
-const METHODOLOGY_VERSION = \"mtf-methodology-v1\";
+const METHODOLOGY_VERSION = "mtf-methodology-v1";
 
 function findPlanBrokerage(broker: Broker, planId: string) {
   const plan = broker.plans.find((p) => p.id === planId) ?? broker.plans[0];
@@ -18,11 +18,11 @@ function findPlanBrokerage(broker: Broker, planId: string) {
 
 // Compute brokerage: percent of turnover with optional cap
 function brokerageForTurnover(rule: { value: number; unit: string; max?: number }, turnover: number) {
-  if (rule.unit === \"percent\") {
+  if (rule.unit === "percent") {
     const raw = (rule.value / 100) * turnover;
     return rule.max ? Math.min(raw, rule.max) : raw;
   }
-  if (rule.unit === \"flat\") return rule.value;
+  if (rule.unit === "flat") return rule.value;
   return 0;
 }
 
@@ -47,7 +47,10 @@ export function calculateMtf(input: CalculationInput): CalculationResult {
   const interestTotal = brokerFunded * dailyRate * holdingDays;
 
   // Buy-side charges
-  const buyBrokerage = brokerageForTurnover(plan.buyBrokerage, tradeValue);
+  const buyBrokerage = brokerageForTurnover(
+    input.buyBrokeragePct === undefined ? plan.buyBrokerage : { value: input.buyBrokeragePct, unit: "percent" },
+    tradeValue,
+  );
   const buySTT = 0; // STT applies on sell for equity delivery/MTF; buy typically 0
   const buyStamp = (mtf.stampDuty / 100) * tradeValue;
   const buyExchTxn = (mtf.exchangeTxnPct / 100) * tradeValue;
@@ -55,7 +58,10 @@ export function calculateMtf(input: CalculationInput): CalculationResult {
   const buyIpft = (mtf.ipftPct / 100) * tradeValue;
 
   // Sell-side charges
-  const sellBrokerage = brokerageForTurnover(plan.sellBrokerage, sellValue);
+  const sellBrokerage = brokerageForTurnover(
+    input.sellBrokeragePct === undefined ? plan.sellBrokerage : { value: input.sellBrokeragePct, unit: "percent" },
+    sellValue,
+  );
   const sellSTT = (mtf.stt.sell / 100) * sellValue;
   const sellExchTxn = (mtf.exchangeTxnPct / 100) * sellValue;
   const sellSebi = (mtf.sebiChargesPct / 100) * sellValue;
@@ -79,33 +85,33 @@ export function calculateMtf(input: CalculationInput): CalculationResult {
   const gstOnAll = (mtf.gstOnCharges / 100) * gstableBase;
 
   const buySide: CostLine[] = [
-    { key: \"buy_brokerage\", label: \"Buy Brokerage\", side: \"buy\", amount: buyBrokerage, gstApplied: true },
-    { key: \"buy_stamp\", label: \"Stamp Duty\", side: \"buy\", amount: buyStamp },
-    { key: \"buy_exch_txn\", label: \"Exchange Txn Charges\", side: \"buy\", amount: buyExchTxn, gstApplied: true },
-    { key: \"buy_sebi\", label: \"SEBI Charges\", side: \"buy\", amount: buySebi, gstApplied: true },
-    { key: \"buy_ipft\", label: \"IPFT\", side: \"buy\", amount: buyIpft },
-    { key: \"buy_stt\", label: \"STT (Buy)\", side: \"buy\", amount: buySTT },
+    { key: "buy_brokerage", label: "Buy Brokerage", side: "buy", amount: buyBrokerage, gstApplied: true },
+    { key: "buy_stamp", label: "Stamp Duty", side: "buy", amount: buyStamp },
+    { key: "buy_exch_txn", label: "Exchange Txn Charges", side: "buy", amount: buyExchTxn, gstApplied: true },
+    { key: "buy_sebi", label: "SEBI Charges", side: "buy", amount: buySebi, gstApplied: true },
+    { key: "buy_ipft", label: "IPFT", side: "buy", amount: buyIpft },
+    { key: "buy_stt", label: "STT (Buy)", side: "buy", amount: buySTT },
   ];
   const sellSide: CostLine[] = [
-    { key: \"sell_brokerage\", label: \"Sell Brokerage\", side: \"sell\", amount: sellBrokerage, gstApplied: true },
-    { key: \"sell_stt\", label: \"STT (Sell)\", side: \"sell\", amount: sellSTT },
-    { key: \"sell_exch_txn\", label: \"Exchange Txn Charges\", side: \"sell\", amount: sellExchTxn, gstApplied: true },
-    { key: \"sell_sebi\", label: \"SEBI Charges\", side: \"sell\", amount: sellSebi, gstApplied: true },
-    { key: \"sell_ipft\", label: \"IPFT\", side: \"sell\", amount: sellIpft },
+    { key: "sell_brokerage", label: "Sell Brokerage", side: "sell", amount: sellBrokerage, gstApplied: true },
+    { key: "sell_stt", label: "STT (Sell)", side: "sell", amount: sellSTT },
+    { key: "sell_exch_txn", label: "Exchange Txn Charges", side: "sell", amount: sellExchTxn, gstApplied: true },
+    { key: "sell_sebi", label: "SEBI Charges", side: "sell", amount: sellSebi, gstApplied: true },
+    { key: "sell_ipft", label: "IPFT", side: "sell", amount: sellIpft },
   ];
   const holding: CostLine[] = [
     {
-      key: \"mtf_interest\",
+      key: "mtf_interest",
       label: `MTF Interest (${holdingDays} days)`,
-      side: \"holding\",
+      side: "holding",
       amount: interestTotal,
       formula: `${brokerFunded.toFixed(2)} × ${input.annualInterestRatePct}%/365 × ${holdingDays}`,
     },
   ];
   const operational: CostLine[] = [
-    { key: \"pledge\", label: \"Pledge Charges\", side: \"operational\", amount: pledgeCharges, gstApplied: true },
-    { key: \"unpledge\", label: \"Unpledge Charges\", side: \"operational\", amount: unpledgeCharges, gstApplied: true },
-    { key: \"dp\", label: \"DP Charges\", side: \"operational\", amount: dpCharges },
+    { key: "pledge", label: "Pledge Charges", side: "operational", amount: pledgeCharges, gstApplied: true },
+    { key: "unpledge", label: "Unpledge Charges", side: "operational", amount: unpledgeCharges, gstApplied: true },
+    { key: "dp", label: "DP Charges", side: "operational", amount: dpCharges },
   ];
 
   const subtotal =
@@ -168,4 +174,3 @@ export function projectHoldingPeriods(
   }
   return rows;
 }
-"

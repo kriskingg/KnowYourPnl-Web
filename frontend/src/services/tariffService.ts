@@ -1,5 +1,5 @@
-"import { MOCK, TARIFF_CHANGES } from \"./mockData\";
-import type { TariffVersion } from \"@/types\";
+import { MOCK, TARIFF_CHANGES } from "./mockData";
+import type { TariffVersion } from "@/types";
 
 export const tariffService = {
   listCurrent: async (): Promise<TariffVersion[]> => {
@@ -21,4 +21,3 @@ export const tariffService = {
   },
   getChanges: (versionId: string) => TARIFF_CHANGES[versionId] ?? [],
 };
-"

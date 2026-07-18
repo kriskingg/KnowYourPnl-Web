@@ -1,5 +1,5 @@
-"import { MOCK } from \"./mockData\";
-import type { Broker, EvidenceRecord } from \"@/types\";
+import { MOCK } from "./mockData";
+import type { Broker, EvidenceRecord } from "@/types";
 
 export const brokerService = {
   list: async (): Promise<Broker[]> => MOCK.brokers,
@@ -18,4 +18,3 @@ export const brokerService = {
     return MOCK.evidence.filter((e) => e.broker === slug);
   },
 };
-"

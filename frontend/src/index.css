@@ -1,4 +1,4 @@
-"@import url(\"https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap\");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -51,18 +51,18 @@
   body {
     background-color: var(--kypnl-bg);
     color: var(--kypnl-ink);
-    font-family: \"IBM Plex Sans\", ui-sans-serif, system-ui, sans-serif;
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: \"ss01\", \"cv11\";
+    font-feature-settings: "ss01", "cv11";
   }
 
   .font-editorial {
-    font-family: \"Playfair Display\", ui-serif, Georgia, serif;
+    font-family: "Playfair Display", ui-serif, Georgia, serif;
     letter-spacing: -0.01em;
   }
   .font-mono-ibm {
-    font-family: \"IBM Plex Mono\", ui-monospace, monospace;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
   }
 
   /* Selection */
@@ -122,8 +122,7 @@
 }
 
 @layer base {
-  [data-debug-wrapper=\"true\"] {
+  [data-debug-wrapper="true"] {
     display: contents !important;
   }
 }
-"

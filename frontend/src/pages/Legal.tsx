@@ -1,0 +1,16 @@
+import { Seo } from "@/components/shared/Seo";
+
+const Page = ({ title, description, children }: { title: string; description: string; children: React.ReactNode }) => (
+  <main className="mx-auto max-w-3xl px-4 md:px-6 py-10">
+    <Seo title={title} description={description} />
+    <div className="kypnl-overline">KnowYourPNL policy</div>
+    <h1 className="font-editorial text-4xl md:text-5xl mt-2 border-b border-black pb-6">{title}</h1>
+    <div className="prose-policy py-6 space-y-5 leading-7 text-[#333]">{children}</div>
+  </main>
+);
+
+export const Privacy = () => <Page title="Privacy Policy" description="How KnowYourPNL handles calculator, ledger, analytics and advertising data."><p>Calculator inputs and the MTF ledger are stored on your device unless a future feature clearly asks you to transmit them. We do not currently require an account.</p><p>Hosting, security, analytics or advertising providers may process technical information such as IP address, browser type and page requests. Advertising cookies will only be enabled in regions where the required consent has been obtained.</p><p>You can clear local ledger data from the Ledger page or through your browser settings.</p></Page>;
+export const Cookies = () => <Page title="Cookie Policy" description="Cookie and local-storage use on KnowYourPNL."><p>KnowYourPNL uses local storage for device-local ledger records and preferences. Essential storage does not track you across websites.</p><p>If advertising or analytics is enabled, a consent message will explain optional storage before it is used where required. You may change or withdraw that choice through the privacy controls.</p></Page>;
+export const AdvertisingDisclosure = () => <Page title="Advertising & Affiliate Disclosure" description="How advertising is kept separate from KnowYourPNL calculations and evidence."><p>Advertisements, sponsorships and affiliate links are always labelled. Commercial relationships do not change calculations, broker ordering, tariff values, verification badges or evidence classifications.</p><p>KnowYourPNL may receive compensation when a visitor follows an affiliate link or when a sponsor purchases a clearly marked placement. This does not imply endorsement or official affiliation.</p></Page>;
+export const Terms = () => <Page title="Terms of Use" description="Terms governing use of KnowYourPNL."><p>The website provides educational estimates, not investment, tax or legal advice. You are responsible for checking tariffs and transaction records with your broker.</p><p>The service is provided without a guarantee of completeness, availability or suitability for a particular decision. Do not use demonstration values as verified charges.</p></Page>;
+export const Contact = () => <Page title="Contact" description="Contact KnowYourPNL about corrections, evidence, advertising or privacy."><p>For tariff corrections, evidence submissions, privacy questions or advertising enquiries, email <a className="underline" href="mailto:hello@knowyourpnl.in">hello@knowyourpnl.in</a>.</p><p>Please do not send passwords, trading credentials, account statements containing personal identifiers or other sensitive financial information.</p></Page>;

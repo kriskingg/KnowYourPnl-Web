@@ -1,12 +1,12 @@
-"// Data models for KnowYourPNL (MTF)
+// Data models for KnowYourPNL (MTF)
 
 export type VerificationStatus =
-  | \"official\"
-  | \"account_verified\"
-  | \"formula_tested\"
-  | \"estimated\"
-  | \"user_modified\"
-  | \"review_required\";
+  | "official"
+  | "account_verified"
+  | "formula_tested"
+  | "estimated"
+  | "user_modified"
+  | "review_required";
 
 export interface EvidenceRecord {
   id: string;
@@ -14,7 +14,7 @@ export interface EvidenceRecord {
   planId?: string;
   chargeName: string;
   sourceTitle: string;
-  sourceType: \"official_pricing_page\" | \"account_statement\" | \"help_article\" | \"regulatory_notice\" | \"internal_test\";
+  sourceType: "official_pricing_page" | "account_statement" | "help_article" | "regulatory_notice" | "internal_test";
   sourceReference: string; // URL or citation
   effectiveDate: string; // ISO date
   lastCheckedDate: string; // ISO date
@@ -27,15 +27,15 @@ export interface EvidenceRecord {
 export interface ChargeDefinition {
   key: string;
   label: string;
-  unit: \"percent\" | \"flat\" | \"per_event\" | \"per_share\" | \"annual_percent\" | \"daily_percent\";
-  side?: \"buy\" | \"sell\" | \"both\";
+  unit: "percent" | "flat" | "per_event" | "per_share" | "annual_percent" | "daily_percent";
+  side?: "buy" | "sell" | "both";
   description?: string;
 }
 
 export interface ChargeRule {
   chargeKey: string;
   value: number; // interpreted per unit
-  unit: ChargeDefinition[\"unit\"];
+  unit: ChargeDefinition["unit"];
   min?: number;
   max?: number;
   gstApplicable?: boolean;
@@ -96,7 +96,7 @@ export interface Broker {
   headquarters: string;
   sebiRegNo: string;
   overview: string;
-  supportedProducts: string[]; // e.g. [\"MTF\"]
+  supportedProducts: string[]; // e.g. ["MTF"]
   currentTariffVersion: string;
   lastVerificationDate: string;
   verificationStatus: VerificationStatus;
@@ -120,6 +120,8 @@ export interface CalculationInput {
   pledgeRequests: number;
   unpledgeRequests: number;
   dpDebitEvents: number;
+  buyBrokeragePct?: number;
+  sellBrokeragePct?: number;
   // Optional user overrides
   overrides?: Partial<MtfConfiguration>;
 }
@@ -127,7 +129,7 @@ export interface CalculationInput {
 export interface CostLine {
   key: string;
   label: string;
-  side: \"buy\" | \"sell\" | \"holding\" | \"operational\";
+  side: "buy" | "sell" | "holding" | "operational";
   amount: number;
   formula?: string;
   gstApplied?: boolean;
@@ -167,6 +169,8 @@ export interface HoldingPeriodProjectionRow {
   netPnl: number;
   breakevenPrice: number;
 }
+
+export type HoldingPeriodProjection = HoldingPeriodProjectionRow[];
 
 export interface MtfLot {
   id: string;
@@ -217,4 +221,3 @@ export interface BrokerComparisonResult {
   breakevenPrice: number;
   verificationStatus: VerificationStatus;
 }
-"

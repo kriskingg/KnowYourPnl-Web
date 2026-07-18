@@ -1,0 +1,6 @@
+import * as React from "react";
+import { cn } from "@/lib/cn";
+
+export const Label = ({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) => (
+  <label className={cn("text-xs font-medium", className)} {...props} />
+);

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://knowyourpnl.in/sitemap.xml

@@ -1,10 +1,10 @@
-"export const Disclaimer = () => (
-  <div className=\"mx-auto max-w-7xl px-4 md:px-6 py-10\" data-testid=\"page-disclaimer\">
-    <header className=\"border-b border-black pb-6 mb-10\">
-      <div className=\"kypnl-overline\">Disclaimer</div>
-      <h1 className=\"font-editorial text-4xl md:text-5xl font-semibold mt-2\">Read this first.</h1>
+export const Disclaimer = () => (
+  <div className="mx-auto max-w-7xl px-4 md:px-6 py-10" data-testid="page-disclaimer">
+    <header className="border-b border-black pb-6 mb-10">
+      <div className="kypnl-overline">Disclaimer</div>
+      <h1 className="font-editorial text-4xl md:text-5xl font-semibold mt-2">Read this first.</h1>
     </header>
-    <div className=\"space-y-5 text-[14px] leading-relaxed max-w-3xl\">
+    <div className="space-y-5 text-[14px] leading-relaxed max-w-3xl">
       <p>
         KnowYourPNL is an educational tool for understanding the cost structure of Margin Trading
         Facility. Nothing on this site constitutes investment advice, a recommendation to buy or
@@ -28,4 +28,3 @@
     </div>
   </div>
 );
-"

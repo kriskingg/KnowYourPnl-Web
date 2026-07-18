@@ -1,10 +1,10 @@
-"import type { MtfLot, PortfolioSummary } from \"@/types\";
-import { MOCK } from \"./mockData\";
+import type { MtfLot, PortfolioSummary } from "@/types";
+import { MOCK } from "./mockData";
 
-const STORAGE_KEY = \"kypnl.mtf.ledger.v1\";
+const STORAGE_KEY = "kypnl.mtf.ledger.v1";
 
 const readRaw = (): MtfLot[] | null => {
-  if (typeof window === \"undefined\") return null;
+  if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
@@ -15,7 +15,7 @@ const readRaw = (): MtfLot[] | null => {
 };
 
 const write = (lots: MtfLot[]) => {
-  if (typeof window === \"undefined\") return;
+  if (typeof window === "undefined") return;
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(lots));
 };
 
@@ -58,7 +58,7 @@ export const ledgerService = {
   },
   importJson(json: string): MtfLot[] {
     const parsed = JSON.parse(json) as MtfLot[];
-    if (!Array.isArray(parsed)) throw new Error(\"Invalid ledger file\");
+    if (!Array.isArray(parsed)) throw new Error("Invalid ledger file");
     write(parsed);
     return parsed;
   },
@@ -77,4 +77,3 @@ export const ledgerService = {
     };
   },
 };
-"
