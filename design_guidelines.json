@@ -1,0 +1,112 @@
+{
+  "project_name": "KnowYourPNL",
+  "theme_mode": "Light",
+  "aesthetic_archetype": "Swiss & High-Contrast / Editorial Finance (Bloomberg, The Ken)",
+  "typography": {
+    "strategy": "Scale Dissonance + Dense Data. Use a high-contrast serif for major editorial headlines, and a highly legible, sterile grotesque/mono for all tabular data, forms, and standard UI.",
+    "font_families": {
+      "heading": "'Playfair Display', serif",
+      "body_and_data": "'IBM Plex Sans', sans-serif",
+      "mono": "'IBM Plex Mono', monospace"
+    },
+    "scales": {
+      "h1_hero": "text-4xl md:text-5xl tracking-tight leading-none font-bold",
+      "h2_section": "text-2xl md:text-3xl tracking-tight font-semibold",
+      "h3_card": "text-lg font-medium",
+      "body_standard": "text-[14px] leading-relaxed",
+      "table_data": "text-[13px] md:text-[14px] tabular-nums tracking-tight",
+      "overline_labels": "text-[11px] uppercase tracking-[0.05em] font-medium text-muted-foreground"
+    },
+    "rules": [
+      "Never use generic Inter for headings.",
+      "Headings should use Playfair Display ONLY for major page titles or editorial sections (like /about, /methodology).",
+      "For dashboards, tables, and broker cards, use IBM Plex Sans entirely to maintain data clarity.",
+      "Use 'tabular-nums' utility class strictly on all numeric data cells."
+    ]
+  },
+  "colors": {
+    "palette_strategy": "Editorial/Print constraint. Mostly stark white canvas, absolute black ink, with a single striking accent color and muted functional colors.",
+    "tokens": {
+      "background": "#F9F9F7",
+      "surface_card": "#FFFFFF",
+      "text_primary": "#0A0A0A",
+      "text_secondary": "#525252",
+      "border_hairline": "#E5E5DF",
+      "border_heavy": "#0A0A0A",
+      "accent_editorial": "#D43325",
+      "accent_hover": "#A82418",
+      "status_credit": "#057A55",
+      "status_debit": "#D43325",
+      "status_warning": "#D97706"
+    },
+    "verification_badges": {
+      "official": "bg-green-50 text-green-700 border-green-200",
+      "account_verified": "bg-blue-50 text-blue-700 border-blue-200",
+      "formula_tested": "bg-purple-50 text-purple-700 border-purple-200",
+      "estimated": "bg-gray-100 text-gray-700 border-gray-300",
+      "user_modified": "bg-yellow-50 text-yellow-800 border-yellow-200",
+      "review_required": "bg-red-50 text-red-700 border-red-200"
+    }
+  },
+  "visual_enhancers": {
+    "borders": "Use 1px borders aggressively to structure the page (border-collapse on tables, dividers between metrics). Use absolute black (border-black) for major thematic separations, and hairline gray (border-[#E5E5DF]) for internal grid lines.",
+    "shadows": "Strictly NONE. Rely entirely on borders for component separation. This is a print-inspired, 'flat' aesthetic.",
+    "radii": "Very sharp. Override Shadcn default radius to 0px (rounded-none) or 2px (rounded-sm) maximum.",
+    "surfaces": "Solid flat colors only. NO glassmorphism. Data must never refract."
+  },
+  "component_rules": {
+    "general": "Strip away Shadcn's 'SaaS' defaults (soft shadows, rounded corners, muddy grays). Make it look like a printed financial report.",
+    "tables": "Hero components. Tables should span full width, use border-y on headers, tight padding (py-2 px-3). Headers must be IBM Plex Sans, text-[11px] uppercase.",
+    "broker_cards": "Do not build 'floating' cards. Use a CSS Grid (Bento) approach where cards share 1px borders (border-collapse style) to look like a contiguous ledger.",
+    "forms_and_inputs": "Inputs should have rounded-none, sharp 1px borders, and focus:ring-1 focus:ring-black focus:border-black (no soft blue rings).",
+    "verification_badges": "First-class UI elements. Small, pill-shaped or sharp rectangular, with a 1px border. MUST include a small icon (lucide-react) mapping to the status."
+  },
+  "grids_and_layouts": {
+    "spacing": "Intentional. Use tight spacing (gap-4) for data clusters (like a calculator form), but massive spacing (py-20) between distinct editorial sections.",
+    "calculator_layout": "Split screen or heavy asymmetric grid (e.g., md:grid-cols-12). Left side (col-span-4): Form inputs. Right side (col-span-8): Calculation Summary and Breakdown Table.",
+    "ledger_layout": "Full bleed or constrained wide container (max-w-7xl). The data table IS the UI."
+  },
+  "motion": {
+    "strategy": "Functional and instant.",
+    "rules": [
+      "Hover states should be fast (100ms) background darkens or border thickens.",
+      "No bounce or spring animations. No parallax.",
+      "Accordion and Tabs (Shadcn) should use default instant or fast-ease transitions."
+    ]
+  },
+  "accessibility": {
+    "contrast": "Ensure minimum 4.5:1 for all text. The text_primary on background exceeds 15:1.",
+    "testing": "All interactive elements, form inputs, buttons, and verification badges MUST include a 'data-testid' attribute (e.g., 'data-testid=\"calculate-mtf-button\"')."
+  },
+  "media": {
+    "icons": "Use 'lucide-react'. Stroke width 1.5. Keep icons small (14px or 16px) to match data-dense aesthetic.",
+    "images": [
+      {
+        "url": "https://images.pexels.com/photos/4651145/pexels-photo-4651145.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "category": "Editorial Texture / Hero Background",
+        "description": "Detailed close-up of a newspaper displaying global financial market statistics. Use purely as a faint, low-opacity background texture in the Hero or About page."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1711097383282-28097ae16b1d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxvZmZpY2UlMjBkZXNrJTIwZmluYW5jaWFsJTIwZGF0YSUyMGNoYXJ0c3xlbnwwfHx8fDE3ODQzNTk2NjB8MA&ixlib=rb-4.1.0&q=85",
+        "category": "Methodology / Evidence Page",
+        "description": "Person analyzing financial charts on a desk. Good for the 'Guides' or 'Methodology' header to establish analytical credibility."
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Install required fonts: Ensure Google Fonts (@import or link) for 'Playfair Display' and 'IBM Plex Sans' are injected into index.html or global css.",
+    "Update tailwind.config.js: Overwrite border radii to 0, configure the exact editorial color tokens provided in this JSON.",
+    "Data structure: Setup the MTF logic for Kotak Neo with clear 'Demonstration data / Review Required' badges on the rates.",
+    "Implement the Layout: Build the top navigation with the editorial 1px bottom border. Do not use a hamburger menu on desktop.",
+    "Routing: Set up React Router for the massive structure (/, /calculator, /brokers, /compare, /ledger, /tariffs, /methodology, etc).",
+    "Ledger state: Implement local storage persistence for the /ledger route as explicitly requested."
+  ],
+  "universal_guidelines_for_main_agent": [
+    "NO EMOJIS in UI. Use lucide-react icons.",
+    "No generic centered landing page tropes. Left-align text. Use severe, Swiss-style typography.",
+    "Ensure 'data-testid' attributes are placed on EVERYTHING interactive (buttons, tabs, inputs, table rows).",
+    "Avoid 'transition: all'. Explicitly animate transform/opacity/background-color if needed.",
+    "Do not build HTML-based components for tabs, selects, popovers, or tables—use Shadcn UI primitives but heavily style them for the print-aesthetic (sharp corners, thin borders)."
+  ]
+}
+

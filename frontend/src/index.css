@@ -1,0 +1,129 @@
+"@import url(\"https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap\");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --kypnl-bg: #f9f9f7;
+  --kypnl-surface: #ffffff;
+  --kypnl-ink: #0a0a0a;
+  --kypnl-ink-2: #525252;
+  --kypnl-hair: #e5e5df;
+  --kypnl-heavy: #0a0a0a;
+  --kypnl-red: #d43325;
+  --kypnl-red-hover: #a82418;
+  --kypnl-green: #057a55;
+  --kypnl-amber: #d97706;
+  --kypnl-blue: #1d4ed8;
+}
+
+@layer base {
+  :root {
+    --background: 48 22% 97%;
+    --foreground: 0 0% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+    --primary: 0 0% 4%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 48 15% 94%;
+    --secondary-foreground: 0 0% 4%;
+    --muted: 48 15% 94%;
+    --muted-foreground: 0 0% 32%;
+    --accent: 48 15% 94%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 4 71% 49%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 45 14% 89%;
+    --input: 45 14% 89%;
+    --ring: 0 0% 4%;
+    --radius: 0px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html,
+  body {
+    background-color: var(--kypnl-bg);
+    color: var(--kypnl-ink);
+    font-family: \"IBM Plex Sans\", ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: \"ss01\", \"cv11\";
+  }
+
+  .font-editorial {
+    font-family: \"Playfair Display\", ui-serif, Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+  .font-mono-ibm {
+    font-family: \"IBM Plex Mono\", ui-monospace, monospace;
+  }
+
+  /* Selection */
+  ::selection {
+    background: var(--kypnl-ink);
+    color: #f9f9f7;
+  }
+}
+
+@layer components {
+  .hairline {
+    border-color: var(--kypnl-hair);
+  }
+  .heavy-line {
+    border-color: var(--kypnl-ink);
+  }
+  .kypnl-overline {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--kypnl-ink-2);
+    font-weight: 500;
+  }
+
+  .kypnl-tab-num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .kypnl-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .kypnl-table th,
+  .kypnl-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--kypnl-hair);
+    font-variant-numeric: tabular-nums;
+  }
+  .kypnl-table th {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--kypnl-ink-2);
+    font-weight: 500;
+    border-top: 1px solid var(--kypnl-ink);
+    border-bottom: 1px solid var(--kypnl-ink);
+    background: transparent;
+  }
+  .kypnl-table td.num,
+  .kypnl-table th.num {
+    text-align: right;
+  }
+  .kypnl-table tbody tr:hover {
+    background-color: rgba(10, 10, 10, 0.03);
+  }
+}
+
+@layer base {
+  [data-debug-wrapper=\"true\"] {
+    display: contents !important;
+  }
+}
+"
